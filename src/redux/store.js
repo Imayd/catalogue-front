@@ -1,9 +1,9 @@
 import {createStore, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
-import loginReducer from './login/loginReducer'
+import authReducer from './auth/authReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(loginReducer,
+const store = createStore(authReducer,
     composeEnhancers(
         applyMiddleware(thunk)
     )

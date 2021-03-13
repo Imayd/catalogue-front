@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import { LoginAction } from '../redux/login/loginAction';
+import { useHistory } from 'react-router';
+import { LoginAction } from '../redux/auth/authAction';
 function Login(props){
 
     const {user, login} = props;
     const [userState, setUserState] = useState({});
+    const history = useHistory();
     return(
         <div>
             <h2>Login form</h2>
@@ -19,7 +21,7 @@ function Login(props){
                 console.log(userState);
                 console.log("user");
                 console.log(user);
-                login(userState);
+                login(userState,history);
 
 
             }}>
@@ -53,8 +55,8 @@ TO MAP ACTION CREATORS TO PROPS
 */
 const mapDispatchToProps = dispatch => {
     return {
-        login : (userState) => {
-           dispatch(LoginAction(userState));
+        login : (userState,history) => {
+           dispatch(LoginAction(userState,history));
            console.log("userState in mapDispatchToProps");
            console.log(userState);
         }
