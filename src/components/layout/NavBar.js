@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import {connect} from 'react-redux';
+import { Navbar,Nav, NavLink } from 'react-bootstrap';
 import { LogOutAction } from "../../redux/auth/authAction";
 const { Link, useHistory } = require("react-router-dom");
 
@@ -9,40 +10,42 @@ function NavBar(props){
     const history = useHistory();
     const [userState, setUserState] = useState({});
     return(
-        <nav class="navbar navbar-dark bg-dark">
-            <Link to="/home">
-                <img className="Header-logo" src='/img/logo_dark.png' />
-                <img src='/img/logo.png'/>
-            </Link>
+    <div class="container">
+        <Navbar bg="dark" dark fixed="top">
+        <Nav className="mr-auto">
+            <NavLink href="/home">
+                <img className="navbar-brand" src='/img/logo3.png' alt="logo" width= "200px" height= "50px" />
+            </NavLink>
+    
+            <div className="navbar-nav mr-auto">
             <div className="ml-auto">
                 {
                     !auth.isLoggedIn ? (
-                    <React.Fragment>
-                     <Link to="./login">
+                    <div className="nav-item">
+                     <Link to={"/login"}>
                         <button className="btn btn-primary btn-sm mx-2">Login</button>
                      </Link>
-                    </React.Fragment> ):
+                    </div> ):
                     (
-                    <React.Fragment>
-                        <h5>
-                            {auth.user.name}
-                        </h5>
-                        <button className="btn btn-primary btn-sm mx-2">Log Out</button>
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
+                    <React.Fragment >
+                        <div className="nav-item">
+                            <h5>
+                                {auth.user.name}
+                            </h5>
+                        </div>
+                        <NavLink>
                                 <a href="/login" className="nav-link" onClick={()=>logout(history)}>
                                 LogOut
                                 </a>
-                            </li>
-                        </div>
-                        <Link>
-                        </Link>
+                        </NavLink>
                     </React.Fragment>
                     )
                 }
             </div>
-            
-        </nav>
+            </div>
+            </Nav>
+        </Navbar>
+    </div>
     );
 }
 
@@ -55,7 +58,7 @@ const mapStateToProps = (state) => {
     return {
         auth : state
     }
-}
+} 
 
 /*
 TO MAP ACTION CREATORS TO PROPS

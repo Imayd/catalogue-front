@@ -1,10 +1,10 @@
 import React from 'react';
-import NavBar from './layout/NavBar'
+import NavTest from './layout/NavTest'
 
 function Home(props) {
     return (
         <div>
-            <NavBar></NavBar>
+            <NavTest/>
         </div>
     );
 }
