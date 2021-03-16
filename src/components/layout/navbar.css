@@ -1,0 +1,33 @@
+.SignedInAs {
+  font-family: "PT Sans", sans-serif;
+}
+.dropdown-menu {
+  width: 200px;
+  position: absolute;
+  top: 80px;
+  list-style: none;
+  text-align: start;
+}
+
+.dropdown-menu li {
+  background: lightblue;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background: lightblue;
+}
+
+.dropdown-menu.clicked {
+  display: none;
+}
+.dropdown-menu-link {
+  text-decoration: none;
+}
+.dropdown-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #f7f7f7;
+  padding: 16px;
+}

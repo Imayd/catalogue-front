@@ -4,16 +4,44 @@ import PowerSettingsNewRoundedIcon from '@material-ui/icons/PowerSettingsNewRoun
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Navbar, NavLink } from 'react-bootstrap';
+import { Navbar, NavLink,Nav } from 'react-bootstrap';
+import styled from 'styled-components';
 import { LogOutAction } from "../../redux/auth/authAction";
-const { Link, useHistory } = require("react-router-dom");
+import './navbar.css';
+import '../../App.css';
+const { useHistory } = require("react-router-dom");
+
+
+
+
+const Styles = styled.div`
+  .navbar { background-color: #222; }
+  a, .navbar-nav, .navbar-light .nav-link {
+    color: #9FFFCB;
+    &:hover { color: white; }
+  }
+  .navbar-brand {
+    font-size: 1.4em;
+    color: #9FFFCB;
+    &:hover { color: white; }
+  }
+  .form-center {
+    position: absolute !important;
+    left: 25%;
+    right: 25%;
+  }
+  .hover{
+    &:hover { color: #e29c32; }
+  }
+`;
+
 
 
 function NavBar(props){
 
     const {auth, logout} = props;
     const history = useHistory();
-    const [hover, setHover] = useState(false);
+    //const [hover, setHover] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
 
@@ -26,63 +54,69 @@ function NavBar(props){
     }
 
     return(
-    <div class="container">
-        <div class="container">
-            <Navbar bg="dark" dark fixed="top" className="size">
-                <NavLink to="/home">
-                    <img className="navbar-brand logo" src='/img/logo3.png' alt="logo"  />
-                </NavLink>
     
-                {
-                    !auth.isLoggedIn ? (
-                <li className="logout" >
-                    <div className="nav-item">
-                     <Link to={"/login"}>
-                        <button className="btn btn-primary btn-sm mx-2">Login</button>
-                     </Link>
-                    </div> 
-                </li>):
-                    (
-                        <React.Fragment>
-                        <li className="logout" >
-                        <Button
-                        color="secondary"
-                        variant="contained"
-                        onMouseOver={handleOpenMenu}
-                        aria-controls='menu'
-                        style={{fontWeight:'bold', fontSize:'11px'}}
-                        >
-                            User Profile
-                        </Button>
-                        </li>
-                        <PowerSettingsNewRoundedIcon 
-                        color={hover ? "default" : "secondary"} fontSize="large" 
-                        style={{marginLeft :'30px'}} 
-                        onClick={()=>{
-                            logout(history);
-                        }}
-                        onMouseEnter={()=>setHover(true)}
-                        onMouseLeave={()=>setHover(false)}/>
-
-                    </React.Fragment>
-                    )
-                }
-            </Navbar>
-            <Menu 
-            id="menu" 
-            onClose={handleCloseMenu} 
-            anchorEl={anchorEl} 
-            open={Boolean(anchorEl)}
-            style={{marginTop :'40px'}} 
-            >
-                <MenuItem onClick={handleCloseMenu}>
-                    Signed In as<strong>&nbsp; {auth.user.name}</strong>
-                </MenuItem>
-            </Menu>
-        </div>
-    </div>
-    );
+        <>
+        <Styles>
+        <Navbar expand="lg">
+            <NavLink to="/">
+                        <img className="navbar-brand logo" src='/img/logo2.png' alt="logo"  />
+            </NavLink>
+          <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+    
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ml-auto">
+    
+              <Nav.Item>
+              <li>
+                            <Button
+                            color="secondary"
+                            variant="contained"
+                            onMouseOver={handleOpenMenu}
+                            aria-controls='menu'
+                            style={{fontWeight:'bold', fontSize:'13px', backgroundColor:'#222', color:'#fa5215'}}
+                            >
+                                User Profile
+                            </Button>
+                            </li>
+              </Nav.Item>
+    
+    
+    
+              <Nav.Item>
+                  <PowerSettingsNewRoundedIcon 
+                            color="secondary" fontSize="large" 
+                            style={{marginLeft :'30px'}} 
+                            onClick={()=>{
+                                logout(history);
+                            }}
+                            className="hover"
+                            />
+                </Nav.Item>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </Styles>
+        <Menu 
+        id="menu" 
+        onClose={handleCloseMenu} 
+        anchorEl={anchorEl} 
+        open={Boolean(anchorEl)}
+        style={{marginTop :'40px'}} 
+        >
+            <MenuItem onClick={handleCloseMenu}>
+                Signed In as <i>&nbsp; {auth.user.name}</i>
+            </MenuItem>
+        </Menu>
+        </>
+      );
 }
+
+/**
+ * 
+onMouseEnter={()=>setHover(true)}
+onMouseLeave={()=>setHover(false)}
+ */
+
 
 
 

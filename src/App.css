@@ -1,38 +1,15 @@
 .App {
   text-align: center;
+  /*width: 100vw;
+  height: 100vh;*/
 }
-.SignedInAs {
-  font-family: "PT Sans", sans-serif;
-}
-.dropdown-menu {
-  width: 200px;
-  position: absolute;
-  top: 80px;
-  list-style: none;
-  text-align: start;
-}
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
-.dropdown-menu li {
-  background: lightblue;
-  cursor: pointer;
-}
-
-.dropdown-menu li:hover {
-  background: lightblue;
-}
-
-.dropdown-menu.clicked {
-  display: none;
-}
-.dropdown-menu-link {
-  text-decoration: none;
-}
-.dropdown-link {
-  display: block;
-  width: 100%;
-  height: 100%;
-  color: #f7f7f7;
-  padding: 16px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", sans-serif;
 }
 .App-logo {
   height: 40vmin;
@@ -74,15 +51,6 @@
   padding: 40px 40px;
 }
 
-.labelo {
-  background-color: #807d8a;
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  border-radius: 20px;
-  padding: 25px 35px 20px 30px;
-}
-
 .card {
   background-color: #f7f7f7;
   padding: 20px 25px 30px;
@@ -105,30 +73,10 @@
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
-.flexy {
-  justify-content: center;
-  display: flex;
-  word-spacing: 0cm;
-}
-.centry {
-  justify-content: center;
-  display: flex;
-}
-.size {
+
+/*.size {
   width: 100%;
   height: 60px;
-}
-.logo {
-  width: 200px;
-  height: 60px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-.logout {
-  display: flex;
-  margin-left: 63%;
-  justify-content: center;
-  white-space: nowrap;
 }
 
 h6,
@@ -137,38 +85,21 @@ h4 {
   color: #15485c;
 }
 
-.tablo {
-  background-color: #f7f7f7;
-}
 th {
   background-color: #a798b6;
   color: white;
-}
-.titre {
-  padding: 50px 50px 50px 50px;
-  color: #f7f7f7;
-}
-
-.navy {
-  background-color: #86848d;
-}
-.linky {
-  color: #000;
-}
+}*/
 
 .nav-item {
   font-weight: 600;
 }
 
-.titry {
-  padding: 30px 35px 30px;
-}
-.centry {
-  padding: 30px 35px 30px;
-  font-weight: 500;
-}
-
 .drop-down {
   display: flexbox;
   align-content: flex-end;
+}
+
+.logo {
+  height: 25%;
+  width: 20%;
 }
