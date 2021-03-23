@@ -17,7 +17,7 @@ const initialState={
 
 const authState = getAuthState();
 
-const authReducer = (state = authState, action)=> {
+const authReducer = (state = authState ? authState : initialState, action)=> {
 
     switch(action.type){
         

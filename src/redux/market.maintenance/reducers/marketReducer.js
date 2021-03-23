@@ -1,7 +1,8 @@
-import MarketActionType from '../actions/types';
+import {MarketActionType} from '../actions/types';
 
 const initialState = {
-    markets : []
+    markets : [], 
+    error : ''
 };
 
 const marketReducer = (state = initialState, action)=> {
@@ -10,7 +11,8 @@ const marketReducer = (state = initialState, action)=> {
         case MarketActionType.GET_MARKETS :
             return {
                 ...state,
-                markets: action.payload
+                markets: action.payload,
+                error : '',
             };
         default :
             return state;

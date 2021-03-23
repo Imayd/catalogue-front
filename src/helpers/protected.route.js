@@ -18,7 +18,7 @@ const ProtectedRoute = ({
 
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn : state.isLoggedIn
+        isLoggedIn : state.auth.isLoggedIn
     }
 } 
 export default connect(mapStateToProps)(ProtectedRoute);

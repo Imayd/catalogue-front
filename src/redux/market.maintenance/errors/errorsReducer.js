@@ -1,4 +1,4 @@
-import MarketActionType from '../actions/types';
+import {MarketActionType} from '../actions/types';
 
 const initialState = {};
 

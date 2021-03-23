@@ -8,7 +8,7 @@ import Input from "react-validation/build/input";
 
 function Login(props){
 
-    const {user, login} = props;
+    const {login} = props;
     const [userState, setUserState] = useState({});
     const history = useHistory();
     return(
@@ -67,7 +67,7 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */ 
 const mapStateToProps = (state) => {
     return {
-        user : state
+        user : state.auth
     }
 }
 

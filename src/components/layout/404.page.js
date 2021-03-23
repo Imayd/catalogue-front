@@ -10,6 +10,7 @@ export default function Page404() {
     <i className="far fa-question-circle fa-spin"></i>
     <div className="err2">4</div>
     <div className="msg">Page Not Found!</div>
+    <a className="backHome" href='/home'><strong><i>--Go back to Home?--</i></strong></a>
       </div>
 
     </div>

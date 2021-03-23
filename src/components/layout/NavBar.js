@@ -15,7 +15,7 @@ const { useHistory } = require("react-router-dom");
 
 
 const Styles = styled.div`
-  .navbar { background-color: #222; }
+  .navbar { background-color: #222;}
   a, .navbar-nav, .navbar-light .nav-link {
     color: #9FFFCB;
     &:hover { color: white; }
@@ -57,8 +57,8 @@ function NavBar(props){
     
         <>
         <Styles>
-        <Navbar expand="lg">
-            <NavLink to="/">
+        <Navbar expand="lg"  >
+            <NavLink to="/home">
                         <img className="navbar-brand logo" src='/img/logo2.png' alt="logo"  />
             </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -125,7 +125,7 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */ 
 const mapStateToProps = (state) => {
     return {
-        auth : state
+        auth : state.auth
     }
 } 
 

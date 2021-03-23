@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getAuthState = ()=>{
-        const auth = localStorage.getItem("auth");
+        const auth = localStorage.getItem("auth") ? localStorage.getItem("auth") : null ;
         try {
            const authObj = JSON.parse(auth);
            const {jwttoken} = authObj.user;

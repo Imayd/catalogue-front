@@ -1,10 +1,13 @@
 import axios from "axios";
-import MarketActionType from './types'
+import {MarketActionType} from './types'
+import authHeader from '../../../helpers/authHeader';
 
 const GetMarketsAction = () => {
     return async (dispatch) => {
         try {
-            const resp = await axios.get('/markets/') ;
+            console.log("inside GetMarketsAction");
+            const resp = await axios.get('/markets/', { headers: authHeader()}) ;
+            console.log(resp);
             dispatch({
                 type : MarketActionType.GET_MARKETS,
                 payload : resp.data
