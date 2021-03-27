@@ -45,3 +45,13 @@
   top: 45%;
   width: 75%;
 }
+.backHome {
+  text-align: center;
+  font-size: 1rem;
+  position: absolute;
+  left: 16%;
+  top: 55%;
+  width: 75%;
+  color: #020000;
+  list-style: none;
+}

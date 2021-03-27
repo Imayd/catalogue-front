@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const getAuthState = ()=>{
-        const auth = localStorage.getItem("auth");
+        const auth = localStorage.getItem("auth") ? localStorage.getItem("auth") : null ;
         try {
            const authObj = JSON.parse(auth);
-           const {jwttoken} = authObj.user;
-           axios.defaults.headers.common["Auhorization"] = `Bearer ${jwttoken}`
+           const accessToken = authObj.user.accessToken;
+           axios.defaults.headers.common["Auhorization"] = `Bearer ${accessToken}`
            return authObj;
             
         } catch (error) {

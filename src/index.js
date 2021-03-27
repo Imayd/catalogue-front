@@ -6,6 +6,7 @@ import store from "./redux/store";
 import App from './App';
 import axios from 'axios';
 import reportWebVitals from './reportWebVitals';
+import 'typeface-roboto'
 
 axios.defaults.baseURL="http://localhost:8080/api"
 
