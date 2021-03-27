@@ -6,7 +6,7 @@ import {FaHome} from 'react-icons/fa';
 
 function SideBar() {
     return (
-        <div>
+        <>
             <nav className="nav-menu active">
                 <ul className='nav-menu-items'>
                     <li className='nav-text'>
@@ -28,7 +28,7 @@ function SideBar() {
                     }
                 </ul>
             </nav>
-        </div>
+        </>
     )
 }
 

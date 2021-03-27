@@ -122,3 +122,10 @@ th {
 .tablo {
   margin-right: 15px;
 }
+
+.error-message {
+  color: #c92432;
+  margin-top: 5px;
+  font-size: 14px;
+  font-style: italic;
+}

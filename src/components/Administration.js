@@ -5,6 +5,9 @@ import MarketsMaintenance from "./MarketsMaintenance";
 import Button from 'react-bootstrap/Button';
 import AddModalForm from "../forms/addModalForm";
 import { Modal } from "react-bootstrap";
+import {connect} from 'react-redux';
+import {AnnulerAction} from "../redux/market.maintenance/actions/marketActions";
+
 
 
 function AddModal(props) {
@@ -32,7 +35,7 @@ function AddModal(props) {
 }
 
 
-function Administration() {
+function Administration({AnnulerAction}) {
 
     const [addModalShow, setAddModalShow] = React.useState(false);
 
@@ -56,11 +59,21 @@ function Administration() {
             </div>
             <AddModal
                 show={addModalShow}
-                onHide={() => setAddModalShow(false)}
+                onHide={() => {
+                    AnnulerAction();
+                    setAddModalShow(false);
+                }
+            }
             />
             <MarketsMaintenance/>
         </div>
     )
 }
 
-export default Administration;
+const mapDispatchToProps = dispatch => ({
+    
+    AnnulerAction : () => dispatch(AnnulerAction())
+
+})
+
+export default connect(null,mapDispatchToProps)(Administration);

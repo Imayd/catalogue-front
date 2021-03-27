@@ -1,73 +1,112 @@
 import React from 'react';
-import {useFormik} from 'formik';
+import {Formik,useFormik} from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from "react-bootstrap";
+import {connect} from 'react-redux';
+import { useHistory } from 'react-router';
+import {AddMarketAction} from "../redux/market.maintenance/actions/marketActions";
 
 
     
 const validationSchema = Yup.object({
-    name : Yup.string()
-    .min(3,'Le nom du marché ne peut pas être moins de 3 caractères')
-    .max(20,'Le nom du marché ne peut pas être plus que 20 caractères')
-    .matches(/^[aA-zZ\s]+$/,'Le nom du marché ne doit pas contenir des caractères spéciaux')
+    nom : Yup.string()
+    .min(3,'Le nom doit dépasser 2 caractères')
+    .max(20,'Le nom ne doit pas dépasser 20 caractères')
+    .matches(/^[aA-zZ\s]+$/,'Le nom ne doit pas contenir de caractères spéciaux')
     .required('Le nom du marché est obligatoire!'),
     abreviation : Yup.string()
-    .min(1,"L'abréviation ne peut pas être moins de 1 caractère")
-    .max(5,"L'abréviation ne peut pas être plus que 5 caractères")
+    .min(1,"L’abréviation doit comporter au moins 1 caractère")
+    .max(5,"L’abréviation ne doit pas dépasser 5 caractères")
     .matches(/^[aA-zZ]+$/,"L'abréviation ne doit pas contenir des caractères spéciaux")
     .required("L'abréviation du marché est obligatoire!")
 })
 
 const initialValues = {
-    name: '',
+    nom: '',
     abreviation:''
-}
+} 
 
-const onSubmit = values => {
-    console.log(values);
-}
 
-function AddModalForm(props) {
+function AddModalForm({annuler, AddMarketAction, error}) {
+
+
+    const history = useHistory();
+
     const formik = useFormik({
         initialValues,
-        onSubmit,
+        onSubmit : (values, onSubmitProps) => {
+    
+            AddMarketAction(values);
+            if(error===null){
+                history.push('/administration');
+                window.location.reload();
+            }
+            onSubmitProps.setSubmitting(false);
+        },
         validationSchema
     })
-    return (
-        <div>
+    return (    
+        <Formik
+        validateOnChange={false}
+        >
             <Form onSubmit={formik.handleSubmit}>
+            { error ? <div className="alert alert-danger" role="alert"> {error} </div> : null}
             <Form.Group>
                 <Form.Label>Nom du marché</Form.Label>
                 <Form.Control type="text"
                 placeholder="Entrer le nom du marché"
-                name='name'
-                id='name' 
-                onChange={formik.handleChange} 
-                value={formik.values.name}
-                onBlur={formik.handleBlur} />
+                name='nom'
+                id='nom' 
+                {...formik.getFieldProps('nom')} />
+
+                {formik.touched.nom && formik.errors.nom 
+                ? 
+                <div className='error-message'> 
+                    {formik.errors.nom} 
+                </div> 
+                : null }
             </Form.Group>
-                {formik.touched.name && formik.errors.name ? <div style={{color : "red"}}> {formik.errors.name} </div> : null }
-            
+                
             <Form.Group controlId="abreviation">
                 <Form.Label>Abréviation</Form.Label>
                 <Form.Control type="text"
                 placeholder="Entrer l'abréviation du marché"
                 name='abreviation'
-                onChange={formik.handleChange} 
-                value={formik.values.abreviation}
-                onBlur={formik.handleBlur} />
-            </Form.Group>
+                {...formik.getFieldProps('abreviation')}
+                />
 
-                {formik.touched.abreviation && formik.errors.abreviation ? <div style={{color : "red"}}> {formik.errors.abreviation} </div> : null }
+                {formik.touched.abreviation && formik.errors.abreviation 
+                ? <div className='error-message'> {formik.errors.abreviation} </div> : null }
+            </Form.Group>
                 
                 <hr></hr>
                 <div  style={{float: 'right'}}>
-                <Button type='reset' variant="secondary" onClick={props.annuler}>Annuler</Button>
-                <Button type='submit' variant="warning" style={{marginLeft: "10px", color:'white'}} >Enregistrer</Button>
+                <Button type='reset' variant="secondary" 
+                style={{borderRadius:'20px'}}
+                onClick={annuler}>Annuler</Button>
+                <Button type='submit' variant="warning" 
+                disabled={!(formik.dirty && formik.isValid) || formik.isSubmitting } 
+                style={{marginLeft: "8px" , borderRadius:'20px'}} >Enregistrer</Button>
                 </div>
             </Form>
             
-        </div>
+        </Formik>
     )
 }
-export default AddModalForm;
+
+const mapStateToProps = (state) => {
+    return {
+        error : state.market.errors
+    }
+}
+
+/*
+TO MAP ACTION CREATORS TO PROPS
+*/
+const mapDispatchToProps = dispatch => {
+    return {
+        AddMarketAction : (values) => dispatch(AddMarketAction(values))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddModalForm);

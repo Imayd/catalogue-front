@@ -13,10 +13,28 @@
 .nav-menu {
   background-color: #eceaea;
   width: 220px;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
+  /*
+  first it was 
+  height: 1000vh;
   position: fixed;
+  display: flex;*/
+
+  /*height: 100vw;
+  height: 100vh;
+  padding-bottom: 150%;
+  margin-top: 0;
+  display: flex;
+  position: fixed;
+  /*position: absolute;*/
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: inherit;
+  left: 0;
+  overflow-x: hidden;
+
+  /*not to be on top of items + have top = 0 */
+
   transition: 850ms;
 }
 .nav-text {
