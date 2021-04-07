@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 import { Form, Button } from "react-bootstrap";
 import {connect} from 'react-redux';
 import { useHistory } from 'react-router';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import {AddMarketAction} from "../redux/market.maintenance/actions/marketActions";
 
 
@@ -18,12 +20,21 @@ const validationSchema = Yup.object({
     .min(1,"L’abréviation doit comporter au moins 1 caractère")
     .max(5,"L’abréviation ne doit pas dépasser 5 caractères")
     .matches(/^[aA-zZ]+$/,"L'abréviation ne doit pas contenir des caractères spéciaux")
-    .required("L'abréviation du marché est obligatoire!")
+    .required("L'abréviation du marché est obligatoire!"),
+    version : Yup.string()
+    .min(1,'La version du marché doit comporter au moins 1 caractère')
+    .max(9,'La version ne doit pas dépasser 9 caractères')
+    .matches(/^(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)$/,'La version doit avoir un format valide')
+    .required('La version du marché est obligatoire!'),
+    dateEffectivite : Yup.date()
+    .required("La date d'effectivité du marché est obligatoire!").nullable()
 })
 
 const initialValues = {
     nom: '',
-    abreviation:''
+    abreviation:'',
+    version:'',
+    dateEffectivite:''
 } 
 
 
@@ -39,7 +50,8 @@ function AddModalForm({annuler, AddMarketAction, error}) {
             AddMarketAction(values);
             if(error===null){
                 history.push('/administration');
-                window.location.reload();
+                //window.location.reload();
+                console.log(values);
             }
             onSubmitProps.setSubmitting(false);
         },
@@ -77,6 +89,34 @@ function AddModalForm({annuler, AddMarketAction, error}) {
 
                 {formik.touched.abreviation && formik.errors.abreviation 
                 ? <div className='error-message'> {formik.errors.abreviation} </div> : null }
+            </Form.Group>
+
+            <Form.Group controlId="version">
+                <Form.Label>Version</Form.Label>
+                <Form.Control type="text"
+                placeholder="Entrer la version du marché"
+                name='version'
+                {...formik.getFieldProps('version')}
+                />
+
+                {formik.touched.version && formik.errors.version 
+                ? <div className='error-message'> {formik.errors.version} </div> : null }
+            </Form.Group>
+
+
+            <Form.Group controlId="dateEffectivite">
+                <Form.Label>Date d'éffectivité</Form.Label>
+                    <Form.Control
+                    type='date'
+                    name='dateEffectivite'
+                    format='DD-MM-YYYY'
+                    {...formik.getFieldProps('dateEffectivite')}/>
+
+                    
+                {formik.touched.dateEffectivite && formik.errors.dateEffectivite 
+                ? <div className='error-message'> {formik.errors.dateEffectivite} </div> : null }
+                    
+                
             </Form.Group>
                 
                 <hr></hr>
