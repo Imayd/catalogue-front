@@ -108,13 +108,16 @@ function MarketsMaintenance({markets, GetMarketsAction, DeleteMarketAction,Annul
                 {/*<div className="row">
                     <table className = "table table-striped table-bordered tablo">*/}
                         <thead>
-                            <tr>
+                            <tr style={{textAlign:"center"}}>
 
                                 <th>ID</th>
                                 <th>Abréviation</th>
                                 <th>Nom du marché</th>
+                                <th>Version</th>
+                                <th>Date d'éffectivité</th>
                                 <th>Date d'ajout</th>
                                 <th>Date de modification</th>
+                                <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -122,12 +125,16 @@ function MarketsMaintenance({markets, GetMarketsAction, DeleteMarketAction,Annul
                             {
                                 markets.map(
                                     market =>
-                                    <tr key= {market.id}>
+                                    <tr key= {market.id} style={{textAlign:"center"}}>
                                         <td> {market.id}</td>
                                         <td> {market.abreviation}</td>
-                                        <td> {market.nom}</td>
+                                        <td style={{textAlign:"start"}}> {market.nom}</td>
+                                        <td>{market.version}</td>
+                                        <td>{market.dateEffectivite}</td>
                                         <td> {market.dateAjout}</td>
                                         <td> {market.dateModification}</td>
+                                        <td>{ (market.statut) ? (<div style={{textAlign:"center", fontWeight:"450", color:"#e29c32"}}>Actif</div>) : (<div style={{textAlign:"center",fontWeight:"400"}}>Inactif</div>) }</td>
+                                        
                                         <td>
                                             <div className="row">
                                                 
