@@ -15,7 +15,7 @@ const { useHistory } = require("react-router-dom");
 
 
 const Styles = styled.div`
-  .navbar { background-color: #222;}
+  .navbar { background-color: #222;z-index:1;  }
   a, .navbar-nav, .navbar-light .nav-link {
     color: #9FFFCB;
     &:hover { color: white; }

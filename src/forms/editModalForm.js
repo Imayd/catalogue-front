@@ -30,6 +30,7 @@ const validationSchema = Yup.object({
 
 function EditModalForm(props) {
 
+    const date = new Date().toISOString().split('T')[0];
     const history = useHistory();
     const {market,UpdateMarketAction, onHide, error } = props;
     const marketId = market.id;
@@ -50,10 +51,10 @@ function EditModalForm(props) {
         onSubmit : values => {
             console.log('inside onSubmit in editModalForm');
             console.log(values);
-            //UpdateMarketAction(marketId,values);
+            UpdateMarketAction(marketId,values);
             if(error === ''){
                 history.push('/administration');
-                //window.location.reload();
+                window.location.reload();
             }
         },
         validationSchema
@@ -102,12 +103,14 @@ function EditModalForm(props) {
             {formik.touched.version && formik.errors.version ? <div className='error-message'> {formik.errors.version} </div> : null }
 
             </Form.Group>
-
+           
             <Form.Group controlId="dateEffectivite">
                 <Form.Label>Date d'éffectivité</Form.Label>
+                
                     <Form.Control
                     type='date'
                     name='dateEffectivite'
+                    min={date}
                     onChange={formik.handleChange}
                     value={formik.values.dateEffectivite}
                     onBlur={formik.handleBlur}/>

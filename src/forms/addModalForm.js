@@ -42,6 +42,7 @@ function AddModalForm({annuler, AddMarketAction, error}) {
 
 
     const history = useHistory();
+    const date = new Date().toISOString().split('T')[0];
 
     const formik = useFormik({
         initialValues,
@@ -50,7 +51,7 @@ function AddModalForm({annuler, AddMarketAction, error}) {
             AddMarketAction(values);
             if(error===null){
                 history.push('/administration');
-                //window.location.reload();
+                window.location.reload();
                 console.log(values);
             }
             onSubmitProps.setSubmitting(false);
@@ -109,6 +110,7 @@ function AddModalForm({annuler, AddMarketAction, error}) {
                     <Form.Control
                     type='date'
                     name='dateEffectivite'
+                    min= {date}
                     format='DD-MM-YYYY'
                     {...formik.getFieldProps('dateEffectivite')}/>
 
