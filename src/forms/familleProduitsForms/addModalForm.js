@@ -12,7 +12,7 @@ const validationSchema = Yup.object({
     .min(1, "Le code doit comporter au moins 1 caractère")
     .max(20, "Le code ne doit pas dépasser 20 caractères")
     .matches(
-      /^[aA-zZ]+$/,
+      /^[aA-zZ1-9]+$/,
       "Le code ne doit pas contenir de caractères spéciaux"
     )
     .required("Le code de la famille de produits est obligatoire!"),
@@ -57,7 +57,7 @@ function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
           </div>
         ) : null}
         <Form.Group>
-          <Form.Label>Code de la famille de produits</Form.Label>
+          <Form.Label>Code</Form.Label>
           <Form.Control
             type="text"
             placeholder="Entrer le code de la famille de produits"
@@ -120,7 +120,8 @@ TO MAP ACTION CREATORS TO PROPS
 */
 const mapDispatchToProps = (dispatch) => {
   return {
-    AddFamilleProduitsAction: (values) => dispatch(AddFamilleProduitsAction(values)),
+    AddFamilleProduitsAction: (values) =>
+      dispatch(AddFamilleProduitsAction(values)),
   };
 };
 

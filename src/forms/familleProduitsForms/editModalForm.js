@@ -11,7 +11,7 @@ const validationSchema = Yup.object({
     .min(1, "Le code doit comporter au moins 1 caractère")
     .max(20, "Le code ne doit pas dépasser 20 caractères")
     .matches(
-      /^[aA-zZ]+$/,
+      /^[aA-zZ1-9]+$/,
       "Le code ne doit pas contenir de caractères spéciaux"
     )
     .required("Le code de la famille de produits est obligatoire!"),

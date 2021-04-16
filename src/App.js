@@ -8,6 +8,7 @@ import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 import Administration from "./components/Administration";
 import TypeClient from "./components/TypeClient";
 import Page404 from "./components/layout/404.page";
+import FamilleProduits from "./components/FamilleProduits";
 
 function App() {
   return (
@@ -30,6 +31,11 @@ function App() {
             exact
             path="/administration/type-client"
             component={TypeClient}
+          />
+          <ProtectedRoute
+            exact
+            path="/administration/famille-produits"
+            component={FamilleProduits}
           />
 
           <Route path="*" component={Page404} />

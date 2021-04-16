@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import Template from "./layout/Template";
 import { Table, Modal, Button } from "react-bootstrap";
 import AddModalForm from "../forms/familleProduitsForms/addModalForm";
+import EditModalForm from "../forms/familleProduitsForms/editModalForm";
 
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import EditModalForm from "../forms/familleProduitsForms/editModalForm";
 import { useHistory } from "react-router";
 
 import {
-  GetFamilleProduitsAction,
+  GetFamillesProduitsAction,
   DeleteFamilleProduitsAction,
   AnnulerActionForFP,
 } from "../redux/familleProduits/actions/familleProduitsActions";
@@ -126,7 +126,7 @@ function DeleteModal({
 function FamilleProduits(props) {
   const {
     familleProduits,
-    GetFamilleProduitsAction,
+    GetFamillesProduitsAction,
     DeleteFamilleProduitsAction,
     AnnulerActionForFP,
   } = props;
@@ -139,8 +139,8 @@ function FamilleProduits(props) {
   const [familleProduitsData, setFamilleProduitsData] = React.useState({});
 
   useEffect(() => {
-    GetFamilleProduitsAction();
-  }, [GetFamilleProduitsAction]);
+    GetFamillesProduitsAction();
+  }, [GetFamillesProduitsAction]);
 
   return (
     <>
@@ -212,7 +212,7 @@ function FamilleProduits(props) {
                     <EditModal
                       show={editModalShow}
                       onHide={() => {
-                        AnnulerActionForTC();
+                        AnnulerActionForFP();
                         setEditModalShow(false);
                       }}
                       familleProduits={familleProduits}
@@ -241,7 +241,7 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */
 const mapStateToProps = (state) => {
   return {
-    familleProduits: state.familleProduits.fp,
+    familleProduits: state.familleProduits.familleProduits,
   };
 };
 
@@ -249,7 +249,7 @@ const mapStateToProps = (state) => {
     TO MAP ACTION CREATORS TO PROPS
     */
 const mapDispatchToProps = (dispatch) => ({
-  GetFamilleProduitsAction: () => dispatch(GetFamilleProduitsAction()),
+  GetFamillesProduitsAction: () => dispatch(GetFamillesProduitsAction()),
   DeleteFamilleProduitsAction: (id) =>
     dispatch(DeleteFamilleProduitsAction(id)),
   AnnulerActionForFP: () => dispatch(AnnulerActionForFP()),

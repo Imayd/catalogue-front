@@ -15,7 +15,7 @@ export default function Template() {
       <br></br>
       <div className="data">
         <h3 style={{ marginBottom: "15px" }}>
-          <strong>Administration</strong>
+          <strong>Paramètres généraux</strong>
         </h3>
         <Nav
           fill
@@ -58,7 +58,7 @@ export default function Template() {
             <Nav.Link href="#">
               <NavLink
                 exact
-                to="/"
+                to="/administration/famille-produits"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",

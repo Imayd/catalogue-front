@@ -46,10 +46,8 @@ const AddFamilleProduitsAction = (values) => {
 };
 
 const UpdateFamilleProduitsAction = (familleProduitsId, familleProduits) => {
-  console.log("inside UpdateFamilleProduitsAction");
   return async (dispatch) => {
     try {
-      console.log("inside try UpdateFamilleProduitsAction");
       const resp = await axios.put(
         `/famille-produits/${familleProduitsId}`,
         familleProduits,
@@ -57,6 +55,7 @@ const UpdateFamilleProduitsAction = (familleProduitsId, familleProduits) => {
           headers: authHeader(),
         }
       );
+      console.log("resp" + resp.data);
       dispatch({
         type: FamilleProduitsActionType.UPDATE_FAMILLE_PRODUIT_SUCCESS,
         payload: resp.data,
@@ -73,6 +72,7 @@ const UpdateFamilleProduitsAction = (familleProduitsId, familleProduits) => {
 
 const DeleteFamilleProduitsAction = (id) => {
   console.log("inside DeleteFamilleProduitsAction");
+  console.log("id "+id);
   return async (dispatch) => {
     try {
       console.log("inside try DeleteFamilleProduitsAction");
