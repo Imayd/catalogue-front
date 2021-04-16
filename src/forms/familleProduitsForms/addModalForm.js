@@ -5,17 +5,17 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 
-import { AddTypeClientAction } from "../../redux/typeClient/actions/typeClientActions";
+import { AddFamilleProduitsAction } from "../../redux/familleProduits/actions/familleProduitsActions";
 
 const validationSchema = Yup.object({
   code: Yup.string()
     .min(1, "Le code doit comporter au moins 1 caractère")
     .max(20, "Le code ne doit pas dépasser 20 caractères")
     .matches(
-      /^[aA-zZ]+$/,
+      /^[aA-zZ1-9]+$/,
       "Le code ne doit pas contenir de caractères spéciaux"
     )
-    .required("Le code du type de client est obligatoire!"),
+    .required("Le code de la famille de produits est obligatoire!"),
   libelle: Yup.string()
     .min(3, "Le libellé doit comporter au moins 3 caractères")
     .max(20, "Le libellé ne doit pas dépasser 20 caractères")
@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
       /^[aA-zZÀ-ÿ\s]+$/,
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
-    .required("Le libellé du type de client est obligatoire!"),
+    .required("Le libellé de la famille de produits est obligatoire!"),
 });
 
 const initialValues = {
@@ -31,16 +31,16 @@ const initialValues = {
   libelle: "",
 };
 
-function AddModalForm({ annuler, AddTypeClientAction, error }) {
+function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
   const history = useHistory();
 
   const formik = useFormik({
     initialValues,
     onSubmit: (values, onSubmitProps) => {
-      AddTypeClientAction(values);
+      AddFamilleProduitsAction(values);
       if (error === "") {
         window.location.reload();
-        history.push("/administration/type-client");
+        history.push("/administration/famille-produits");
         console.log(values);
       }
       onSubmitProps.setSubmitting(false);
@@ -57,10 +57,10 @@ function AddModalForm({ annuler, AddTypeClientAction, error }) {
           </div>
         ) : null}
         <Form.Group>
-          <Form.Label>Code du Type client</Form.Label>
+          <Form.Label>Code</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer le code du type client"
+            placeholder="Entrer le code de la famille de produits"
             name="code"
             id="code"
             {...formik.getFieldProps("code")}
@@ -75,7 +75,7 @@ function AddModalForm({ annuler, AddTypeClientAction, error }) {
           <Form.Label>Libellé</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer le libellé du Type client"
+            placeholder="Entrer le libellé de la famille de produits"
             name="libelle"
             {...formik.getFieldProps("libelle")}
           />
@@ -111,7 +111,7 @@ function AddModalForm({ annuler, AddTypeClientAction, error }) {
 
 const mapStateToProps = (state) => {
   return {
-    error: state.typeClient.errors,
+    error: state.familleProduits.errors,
   };
 };
 
@@ -120,7 +120,8 @@ TO MAP ACTION CREATORS TO PROPS
 */
 const mapDispatchToProps = (dispatch) => {
   return {
-    AddTypeClientAction: (values) => dispatch(AddTypeClientAction(values)),
+    AddFamilleProduitsAction: (values) =>
+      dispatch(AddFamilleProduitsAction(values)),
   };
 };
 
