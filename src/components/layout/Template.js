@@ -55,7 +55,7 @@ export default function Template() {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="#">
+            <Nav.Link>
               <NavLink
                 exact
                 to="/administration/famille-produits"
@@ -68,6 +68,24 @@ export default function Template() {
               >
                 {" "}
                 Famille de produits
+              </NavLink>
+            </Nav.Link>
+          </Nav.Item>
+
+          <Nav.Item>
+            <Nav.Link>
+              <NavLink
+                exact
+                to="/administration/bilans"
+                activeClassName="actived"
+                style={{
+                  textDecoration: "none",
+                  fontStyle: "oblique",
+                  color: "#777575",
+                }}
+              >
+                {" "}
+                Bilans
               </NavLink>
             </Nav.Link>
           </Nav.Item>

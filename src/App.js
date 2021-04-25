@@ -9,6 +9,7 @@ import Administration from "./components/Administration";
 import TypeClient from "./components/TypeClient";
 import Page404 from "./components/layout/404.page";
 import FamilleProduits from "./components/FamilleProduits";
+import Bilan from "./components/Bilan";
 
 function App() {
   return (
@@ -37,7 +38,11 @@ function App() {
             path="/administration/famille-produits"
             component={FamilleProduits}
           />
-
+          <ProtectedRoute
+            exact
+            path="/administration/bilans"
+            component={Bilan}
+          />
           <Route path="*" component={Page404} />
         </Switch>
       </Router>
