@@ -24,15 +24,24 @@ const validationSchema = Yup.object({
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
     .required("Le libellé de la famille de produits est obligatoire!"),
+  dateEffectivite: Yup.string().required(
+    "La date d'effectivité est obligatoire!"
+  ),
+  dateFinEffectivite: Yup.string().required(
+    "La date de fin d'effectivité est obligatoire!"
+  ),
 });
 
 const initialValues = {
   code: "",
   libelle: "",
+  dateEffectivite: "",
+  dateFinEffectivite: "",
 };
 
 function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
   const history = useHistory();
+  const date = new Date().toISOString().split("T")[0];
 
   const formik = useFormik({
     initialValues,
@@ -82,6 +91,42 @@ function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
 
           {formik.touched.libelle && formik.errors.libelle ? (
             <div className="error-message"> {formik.errors.libelle} </div>
+          ) : null}
+        </Form.Group>
+        <Form.Group controlId="dateEffectivite">
+          <Form.Label>Date d'éffectivité</Form.Label>
+          <Form.Control
+            type="date"
+            name="dateEffectivite"
+            min={date}
+            format="DD-MM-YYYY"
+            {...formik.getFieldProps("dateEffectivite")}
+          />
+
+          {formik.touched.dateEffectivite && formik.errors.dateEffectivite ? (
+            <div className="error-message">
+              {" "}
+              {formik.errors.dateEffectivite}{" "}
+            </div>
+          ) : null}
+        </Form.Group>
+
+        <Form.Group controlId="dateFinEffectivite">
+          <Form.Label>Date de fin d'éffectivité</Form.Label>
+          <Form.Control
+            type="date"
+            name="dateFinEffectivite"
+            min={date}
+            format="DD-MM-YYYY"
+            {...formik.getFieldProps("dateFinEffectivite")}
+          />
+
+          {formik.touched.dateFinEffectivite &&
+          formik.errors.dateFinEffectivite ? (
+            <div className="error-message">
+              {" "}
+              {formik.errors.dateFinEffectivite}{" "}
+            </div>
           ) : null}
         </Form.Group>
 

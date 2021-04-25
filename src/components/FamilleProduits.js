@@ -172,11 +172,13 @@ function FamilleProduits(props) {
         <Table hover responsive="md" borderless>
           <thead>
             <tr style={{ textAlign: "center" }}>
-              <th>ID</th>
               <th>Code</th>
               <th>Libellé</th>
+              <th>Date d'effectivité</th>
+              <th>Date de fin d'effectivité</th>
               <th>Date de création</th>
               <th>Date de modification</th>
+              <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -184,11 +186,29 @@ function FamilleProduits(props) {
           <tbody>
             {familleProduits.map((familleProduits) => (
               <tr key={familleProduits.id} style={{ textAlign: "center" }}>
-                <td> {familleProduits.id}</td>
                 <td> {familleProduits.code}</td>
                 <td> {familleProduits.libelle}</td>
+                <td>{familleProduits.dateEffectivite}</td>
+                <td>{familleProduits.dateFinEffectivite}</td>
                 <td>{familleProduits.dateCreation}</td>
                 <td>{familleProduits.dateModification}</td>
+                <td>
+                  {familleProduits.statut ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        fontWeight: "450",
+                        color: "#e29c32",
+                      }}
+                    >
+                      Actif
+                    </div>
+                  ) : (
+                    <div style={{ textAlign: "center", fontWeight: "400" }}>
+                      Inactif
+                    </div>
+                  )}
+                </td>
                 <td>
                   <div className="row">
                     <FaEdit

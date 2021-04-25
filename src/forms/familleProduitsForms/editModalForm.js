@@ -23,18 +23,38 @@ const validationSchema = Yup.object({
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
     .required("Le libellé de la famille de produits est obligatoire!"),
+  dateEffectivite: Yup.string().required(
+    "La date d'effectivité est obligatoire!"
+  ),
+  dateFinEffectivite: Yup.string().required(
+    "La date de fin d'effectivité est obligatoire!"
+  ),
 });
 
 function EditModalForm(props) {
+  const today = new Date();
+  const tomorrow = new Date(today.setDate(today.getDate() + 1))
+    .toISOString()
+    .split("T")[0];
   const history = useHistory();
   const { familleProduits, UpdateFamilleProduitsAction, onHide, error } = props;
   const familleProduitsId = familleProduits.id;
   const familleProduitsCode = familleProduits.code;
   const familleProduitsLibelle = familleProduits.libelle;
+  const familleProduitsDateEffectivite = familleProduits.dateEffectivite
+    .split("-")
+    .reverse()
+    .join("-");
+  const familleProduitsDateFinEffectivite = familleProduits.dateFinEffectivite
+    .split("-")
+    .reverse()
+    .join("-");
 
   const initialValues = {
     code: familleProduitsCode,
     libelle: familleProduitsLibelle,
+    dateEffectivite: familleProduitsDateEffectivite,
+    dateFinEffectivite: familleProduitsDateFinEffectivite,
   };
 
   const formik = useFormik({
@@ -85,6 +105,38 @@ function EditModalForm(props) {
 
         {formik.touched.libelle && formik.errors.libelle ? (
           <div className="error-message"> {formik.errors.libelle} </div>
+        ) : null}
+      </Form.Group>
+      <Form.Group controlId="dateEffectivite">
+        <Form.Label>Date d'éffectivité</Form.Label>
+
+        <Form.Control
+          type="date"
+          name="dateEffectivite"
+          min={tomorrow}
+          {...formik.getFieldProps("dateEffectivite")}
+        />
+
+        {formik.touched.dateEffectivite && formik.errors.dateEffectivite ? (
+          <div className="error-message"> {formik.errors.dateEffectivite} </div>
+        ) : null}
+      </Form.Group>
+      <Form.Group controlId="dateFinEffectivite">
+        <Form.Label>Date de fin d'éffectivité</Form.Label>
+
+        <Form.Control
+          type="date"
+          name="dateFinEffectivite"
+          min={tomorrow}
+          {...formik.getFieldProps("dateFinEffectivite")}
+        />
+
+        {formik.touched.dateFinEffectivite &&
+        formik.errors.dateFinEffectivite ? (
+          <div className="error-message">
+            {" "}
+            {formik.errors.dateFinEffectivite}{" "}
+          </div>
         ) : null}
       </Form.Group>
       <hr></hr>
