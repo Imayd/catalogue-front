@@ -15,7 +15,7 @@ export default function Template() {
       <br></br>
       <div className="data">
         <h3 style={{ marginBottom: "15px" }}>
-          <strong>Administration</strong>
+          <strong>Paramètres généraux</strong>
         </h3>
         <Nav
           fill
@@ -55,10 +55,10 @@ export default function Template() {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="#">
+            <Nav.Link>
               <NavLink
                 exact
-                to="/"
+                to="/administration/famille-produits"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",
@@ -68,6 +68,24 @@ export default function Template() {
               >
                 {" "}
                 Famille de produits
+              </NavLink>
+            </Nav.Link>
+          </Nav.Item>
+
+          <Nav.Item>
+            <Nav.Link>
+              <NavLink
+                exact
+                to="/administration/bilans"
+                activeClassName="actived"
+                style={{
+                  textDecoration: "none",
+                  fontStyle: "oblique",
+                  color: "#777575",
+                }}
+              >
+                {" "}
+                Bilans
               </NavLink>
             </Nav.Link>
           </Nav.Item>
