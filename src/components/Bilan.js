@@ -2,18 +2,18 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Template from "./layout/Template";
 import { Table, Modal, Button } from "react-bootstrap";
-import AddModalForm from "../forms/typeClientForms/addModalForm";
+import AddModalForm from "../forms/bilanForms/addModalForm";
+import EditModalForm from "../forms/bilanForms/editModalForm";
 
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import EditModalForm from "../forms/typeClientForms/editModalForm";
 import { useHistory } from "react-router";
 
 import {
-  GetTypesClientAction,
-  DeleteTypeClientAction,
-  AnnulerActionForTC,
-} from "../redux/typeClient/actions/typeClientActions";
+  GetBilansAction,
+  DeleteBilanAction,
+  AnnulerActionForBilan,
+} from "../redux/bilan/actions/bilanActions";
 
 function AddModal(props) {
   return (
@@ -28,7 +28,7 @@ function AddModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter un Type de client
+            Ajouter un bilan
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -52,7 +52,7 @@ function EditModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modifier le Type de client
+            Modifier le bilan
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -63,7 +63,7 @@ function EditModal(props) {
   );
 }
 
-function DeleteModal({ typeClient, onHide, show, DeleteTypeClientAction }) {
+function DeleteModal({ bilan, onHide, show, DeleteBilanAction }) {
   const history = useHistory();
   return (
     <div>
@@ -78,14 +78,14 @@ function DeleteModal({ typeClient, onHide, show, DeleteTypeClientAction }) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Supprimer le Type de client
+            Supprimer le bilan
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            Souhaitez-vous supprimer le Type de client '
+            Souhaitez-vous supprimer le bilan '
             <strong>
-              <i>{typeClient.libelle}</i>
+              <i>{bilan.libelle}</i>
             </strong>
             ' ?
           </p>
@@ -104,9 +104,9 @@ function DeleteModal({ typeClient, onHide, show, DeleteTypeClientAction }) {
             variant="warning"
             style={{ marginLeft: "8px", borderRadius: "20px" }}
             onClick={() => {
-              const id = typeClient.id;
-              DeleteTypeClientAction(id);
-              history.push("/administration/type-client");
+              const id = bilan.id;
+              DeleteBilanAction(id);
+              history.push("/administration/bilans");
               window.location.reload();
             }}
           >
@@ -118,23 +118,25 @@ function DeleteModal({ typeClient, onHide, show, DeleteTypeClientAction }) {
   );
 }
 
-function TypeClient(props) {
+function Bilan(props) {
   const {
-    typesClient,
-    GetTypesClientAction,
-    DeleteTypeClientAction,
-    AnnulerActionForTC,
+    bilans,
+    GetBilansAction,
+    DeleteBilanAction,
+    AnnulerActionForBilan,
   } = props;
+
   const [addModalShow, setAddModalShow] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [editModalShow, setEditModalShow] = React.useState(false);
   const [deleteModalShow, setDeleteModalShow] = React.useState(false);
-  const [typeClientData, setTypeClientData] = React.useState({});
+  const [bilanData, setBilanData] = React.useState({});
 
   useEffect(() => {
-    GetTypesClientAction();
-  }, [GetTypesClientAction]);
+    GetBilansAction();
+  }, [GetBilansAction]);
+
   return (
     <>
       <Template />
@@ -153,42 +155,62 @@ function TypeClient(props) {
           onClick={() => setAddModalShow(true)}
         >
           {" "}
-          + Ajouter un type de client
+          + Nouveau bilan
         </Button>
         <AddModal
           show={addModalShow}
           onHide={() => {
-            AnnulerActionForTC();
+            AnnulerActionForBilan();
             setAddModalShow(false);
           }}
         />
         <Table hover responsive="md" borderless>
           <thead>
             <tr style={{ textAlign: "center" }}>
-              <th>ID</th>
               <th>Code</th>
               <th>Libellé</th>
+              <th>Date d'effectivité</th>
+              <th>Date de fin d'effectivité</th>
               <th>Date de création</th>
               <th>Date de modification</th>
+              <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {typesClient.map((typeClient) => (
-              <tr key={typeClient.id} style={{ textAlign: "center" }}>
-                <td> {typeClient.id}</td>
-                <td> {typeClient.code}</td>
-                <td> {typeClient.libelle}</td>
-                <td>{typeClient.dateCreation}</td>
-                <td>{typeClient.dateModification}</td>
+            {bilans.map((bilan) => (
+              <tr key={bilan.id} style={{ textAlign: "center" }}>
+                <td> {bilan.code}</td>
+                <td> {bilan.libelle}</td>
+                <td>{bilan.dateEffectivite}</td>
+                <td>{bilan.dateFinEffectivite}</td>
+                <td>{bilan.dateCreation}</td>
+                <td>{bilan.dateModification}</td>
+                <td>
+                  {bilan.statut ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        fontWeight: "450",
+                        color: "#e29c32",
+                      }}
+                    >
+                      Actif
+                    </div>
+                  ) : (
+                    <div style={{ textAlign: "center", fontWeight: "400" }}>
+                      Inactif
+                    </div>
+                  )}
+                </td>
                 <td>
                   <div className="row">
                     <FaEdit
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
                         setEditModalShow(true);
-                        setTypeClientData(typeClient);
+                        setBilanData(bilan);
                         setShowEditModal(true);
                       }}
                     />
@@ -196,7 +218,7 @@ function TypeClient(props) {
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
                         setDeleteModalShow(true);
-                        setTypeClientData(typeClient);
+                        setBilanData(bilan);
                         setShowDeleteModal(true);
                       }}
                     />
@@ -205,18 +227,18 @@ function TypeClient(props) {
                     <EditModal
                       show={editModalShow}
                       onHide={() => {
-                        AnnulerActionForTC();
+                        AnnulerActionForBilan();
                         setEditModalShow(false);
                       }}
-                      typeClient={typeClientData}
+                      bilan={bilan}
                     />
                   ) : null}
                   {showDeleteModal ? (
                     <DeleteModal
                       show={deleteModalShow}
                       onHide={() => setDeleteModalShow(false)}
-                      typeClient={typeClientData}
-                      DeleteTypeClientAction={DeleteTypeClientAction}
+                      bilan={bilanData}
+                      DeleteBilanAction={DeleteBilanAction}
                     />
                   ) : null}
                 </td>
@@ -228,23 +250,22 @@ function TypeClient(props) {
     </>
   );
 }
-
 /*
 TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */
 const mapStateToProps = (state) => {
   return {
-    typesClient: state.typeClient.typesClient,
+    bilans: state.bilan.bilans,
   };
 };
 
 /*
-  TO MAP ACTION CREATORS TO PROPS
-  */
+      TO MAP ACTION CREATORS TO PROPS
+      */
 const mapDispatchToProps = (dispatch) => ({
-  GetTypesClientAction: () => dispatch(GetTypesClientAction()),
-  DeleteTypeClientAction: (id) => dispatch(DeleteTypeClientAction(id)),
-  AnnulerActionForTC: () => dispatch(AnnulerActionForTC()),
+  GetBilansAction: () => dispatch(GetBilansAction()),
+  DeleteBilanAction: (id) => dispatch(DeleteBilanAction(id)),
+  AnnulerActionForBilan: () => dispatch(AnnulerActionForBilan()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TypeClient);
+export default connect(mapStateToProps, mapDispatchToProps)(Bilan);

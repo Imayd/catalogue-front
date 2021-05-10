@@ -4,53 +4,52 @@ import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
-import "react-datepicker/dist/react-datepicker.css";
 
-import { AddMarketAction } from "../redux/market.maintenance/actions/marketActions";
+import { AddBilanAction } from "../../redux/bilan/actions/bilanActions";
 
 const validationSchema = Yup.object({
-  nom: Yup.string()
-    .min(3, "Le nom doit dépasser 2 caractères")
-    .max(20, "Le nom ne doit pas dépasser 20 caractères")
+  code: Yup.string()
+    .min(1, "Le code doit comporter au moins 1 caractère")
+    .max(20, "Le code ne doit pas dépasser 20 caractères")
     .matches(
-      /^[aA-zZ\s]+$/,
-      "Le nom ne doit pas contenir de caractères spéciaux"
+      /^[aA-zZ1-9]+$/,
+      "Le code ne doit pas contenir de caractères spéciaux"
     )
-    .required("Le nom du marché est obligatoire!"),
-  abreviation: Yup.string()
-    .min(1, "L’abréviation doit comporter au moins 1 caractère")
-    .max(5, "L’abréviation ne doit pas dépasser 5 caractères")
+    .required("Le code est obligatoire!"),
+  libelle: Yup.string()
+    .min(3, "Le libellé doit comporter au moins 3 caractères")
+    .max(20, "Le libellé ne doit pas dépasser 20 caractères")
     .matches(
-      /^[aA-zZ]+$/,
-      "L'abréviation ne doit pas contenir des caractères spéciaux"
+      /^[aA-zZÀ-ÿ\s]+$/,
+      "Le libellé ne doit pas contenir des caractères spéciaux"
     )
-    .required("L'abréviation du marché est obligatoire!"),
-  dateEffectivite: Yup.date()
-    .required("La date d'effectivité du marché est obligatoire!")
-    .nullable(),
-  dateFinEffectivite: Yup.date()
-    .required("La date de fin d'effectivité du marché est obligatoire!")
-    .nullable()
+    .required("Le libellé est obligatoire!"),
+  dateEffectivite: Yup.string().required(
+    "La date d'effectivité est obligatoire!"
+  ),
+  dateFinEffectivite: Yup.string().required(
+    "La date de fin d'effectivité est obligatoire!"
+  ),
 });
 
 const initialValues = {
-  nom: "",
-  abreviation: "",
+  code: "",
+  libelle: "",
   dateEffectivite: "",
   dateFinEffectivite: "",
 };
 
-function AddModalForm({ annuler, AddMarketAction, error }) {
+function AddModalForm({ annuler, AddBilanAction, error }) {
   const history = useHistory();
   const date = new Date().toISOString().split("T")[0];
 
   const formik = useFormik({
     initialValues,
     onSubmit: (values, onSubmitProps) => {
-      AddMarketAction(values);
+      AddBilanAction(values);
       if (error === "") {
-        history.push("/administration/markets-maintenance");
         window.location.reload();
+        history.push("/administration/bilans");
         console.log(values);
       }
       onSubmitProps.setSubmitting(false);
@@ -67,34 +66,33 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
           </div>
         ) : null}
         <Form.Group>
-          <Form.Label>Nom du marché</Form.Label>
+          <Form.Label>Code</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer le nom du marché"
-            name="nom"
-            id="nom"
-            {...formik.getFieldProps("nom")}
+            placeholder="Entrer le code du bilan"
+            name="code"
+            id="code"
+            {...formik.getFieldProps("code")}
           />
 
-          {formik.touched.nom && formik.errors.nom ? (
-            <div className="error-message">{formik.errors.nom}</div>
+          {formik.touched.code && formik.errors.code ? (
+            <div className="error-message">{formik.errors.code}</div>
           ) : null}
         </Form.Group>
 
-        <Form.Group controlId="abreviation">
-          <Form.Label>Abréviation</Form.Label>
+        <Form.Group controlId="libelle">
+          <Form.Label>Libellé</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer l'abréviation du marché"
-            name="abreviation"
-            {...formik.getFieldProps("abreviation")}
+            placeholder="Entrer le libellé du bilan"
+            name="libelle"
+            {...formik.getFieldProps("libelle")}
           />
 
-          {formik.touched.abreviation && formik.errors.abreviation ? (
-            <div className="error-message"> {formik.errors.abreviation} </div>
+          {formik.touched.libelle && formik.errors.libelle ? (
+            <div className="error-message"> {formik.errors.libelle} </div>
           ) : null}
         </Form.Group>
-
         <Form.Group controlId="dateEffectivite">
           <Form.Label>Date d'éffectivité</Form.Label>
           <Form.Control
@@ -158,16 +156,16 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
 
 const mapStateToProps = (state) => {
   return {
-    error: state.market.errors,
+    error: state.bilan.errors,
   };
 };
 
 /*
-TO MAP ACTION CREATORS TO PROPS
-*/
+  TO MAP ACTION CREATORS TO PROPS
+  */
 const mapDispatchToProps = (dispatch) => {
   return {
-    AddMarketAction: (values) => dispatch(AddMarketAction(values)),
+    AddBilanAction: (values) => dispatch(AddBilanAction(values)),
   };
 };
 
