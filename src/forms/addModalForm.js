@@ -25,29 +25,28 @@ const validationSchema = Yup.object({
       "L'abréviation ne doit pas contenir des caractères spéciaux"
     )
     .required("L'abréviation du marché est obligatoire!"),
-  version: Yup.string()
-    .min(1, "La version du marché doit comporter au moins 1 caractère")
-    .max(9, "La version ne doit pas dépasser 9 caractères")
-    .matches(
-      /^(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)$/,
-      "La version doit avoir un format valide"
-    )
-    .required("La version du marché est obligatoire!"),
   dateEffectivite: Yup.date()
     .required("La date d'effectivité du marché est obligatoire!")
+    .nullable(),
+  dateFinEffectivite: Yup.date()
+    .required("La date de fin d'effectivité du marché est obligatoire!")
     .nullable(),
 });
 
 const initialValues = {
   nom: "",
   abreviation: "",
-  version: "",
   dateEffectivite: "",
+  dateFinEffectivite: "",
 };
 
 function AddModalForm({ annuler, AddMarketAction, error }) {
   const history = useHistory();
-  const date = new Date().toISOString().split("T")[0];
+  //const today = new Date().toISOString().split("T")[0];
+  const today = new Date();
+  const tomorrow = new Date(today.setDate(today.getDate() + 1))
+    .toISOString()
+    .split("T")[0];
 
   const formik = useFormik({
     initialValues,
@@ -100,26 +99,12 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
           ) : null}
         </Form.Group>
 
-        <Form.Group controlId="version">
-          <Form.Label>Version</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Entrer la version du marché"
-            name="version"
-            {...formik.getFieldProps("version")}
-          />
-
-          {formik.touched.version && formik.errors.version ? (
-            <div className="error-message"> {formik.errors.version} </div>
-          ) : null}
-        </Form.Group>
-
         <Form.Group controlId="dateEffectivite">
           <Form.Label>Date d'éffectivité</Form.Label>
           <Form.Control
             type="date"
             name="dateEffectivite"
-            min={date}
+            min={tomorrow}
             format="DD-MM-YYYY"
             {...formik.getFieldProps("dateEffectivite")}
           />
@@ -128,6 +113,25 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
             <div className="error-message">
               {" "}
               {formik.errors.dateEffectivite}{" "}
+            </div>
+          ) : null}
+        </Form.Group>
+
+        <Form.Group controlId="dateFinEffectivite">
+          <Form.Label>Date de fin d'éffectivité</Form.Label>
+          <Form.Control
+            type="date"
+            name="dateFinEffectivite"
+            min={tomorrow}
+            format="DD-MM-YYYY"
+            {...formik.getFieldProps("dateFinEffectivite")}
+          />
+
+          {formik.touched.dateFinEffectivite &&
+          formik.errors.dateFinEffectivite ? (
+            <div className="error-message">
+              {" "}
+              {formik.errors.dateFinEffectivite}{" "}
             </div>
           ) : null}
         </Form.Group>

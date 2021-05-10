@@ -23,20 +23,16 @@ const validationSchema = Yup.object({
       "L'abréviation ne doit pas contenir des caractères spéciaux"
     )
     .required("L'abréviation du marché est obligatoire!"),
-  version: Yup.string()
-    .min(1, "La version du marché doit comporter au moins 1 caractère")
-    .max(9, "La version ne doit pas dépasser 9 caractères")
-    .matches(
-      /^(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)$/,
-      "La version doit avoir un format valide"
-    )
-    .required("La version du marché est obligatoire!"),
   dateEffectivite: Yup.string().required(
     "La date d'effectivité du marché est obligatoire!"
+  ),
+  dateFinEffectivite: Yup.string().required(
+    "La date de fin d'effectivité du marché est obligatoire!"
   ),
 });
 
 function EditModalForm(props) {
+  //const date = new Date().toISOString().split("T")[0];
   const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
@@ -45,7 +41,10 @@ function EditModalForm(props) {
   const { market, UpdateMarketAction, onHide, error } = props;
   const marketId = market.id;
   const marketNom = market.nom;
-  const marketVersion = market.version;
+  const marketDateFinEffectivite = market.dateFinEffectivite
+    .split("-")
+    .reverse()
+    .join("-");
   const marketAbreviation = market.abreviation;
   const marketDateEffectivite = market.dateEffectivite
     .split("-")
@@ -54,7 +53,7 @@ function EditModalForm(props) {
   const initialValues = {
     nom: marketNom,
     abreviation: marketAbreviation,
-    version: marketVersion,
+    dateFinEffectivite: marketDateFinEffectivite,
     dateEffectivite: marketDateEffectivite,
   };
 
@@ -65,7 +64,7 @@ function EditModalForm(props) {
       console.log(values);
       UpdateMarketAction(marketId, values);
       if (error === "") {
-        history.push("/administration");
+        history.push("/administration/markets-maintenance");
         window.location.reload();
       }
     },
@@ -113,22 +112,6 @@ function EditModalForm(props) {
           ) : null}
         </Form.Group>
 
-        <Form.Group controlId="abreviation">
-          <Form.Label>Version</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Entrer la version du marché"
-            name="version"
-            onChange={formik.handleChange}
-            value={formik.values.version}
-            onBlur={formik.handleBlur}
-          />
-
-          {formik.touched.version && formik.errors.version ? (
-            <div className="error-message"> {formik.errors.version} </div>
-          ) : null}
-        </Form.Group>
-
         <Form.Group controlId="dateEffectivite">
           <Form.Label>Date d'éffectivité</Form.Label>
 
@@ -148,7 +131,26 @@ function EditModalForm(props) {
             </div>
           ) : null}
         </Form.Group>
+        <Form.Group controlId="dateFinEffectivite">
+          <Form.Label>Date de fin d'éffectivité</Form.Label>
 
+          <Form.Control
+            type="date"
+            name="dateFinEffectivite"
+            min={tomorrow}
+            onChange={formik.handleChange}
+            value={formik.values.dateFinEffectivite}
+            onBlur={formik.handleBlur}
+          />
+
+          {formik.touched.dateFinEffectivite &&
+          formik.errors.dateFinEffectivite ? (
+            <div className="error-message">
+              {" "}
+              {formik.errors.dateFinEffectivite}{" "}
+            </div>
+          ) : null}
+        </Form.Group>
         <hr></hr>
         <div style={{ float: "right" }}>
           <Button
