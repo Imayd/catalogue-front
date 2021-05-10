@@ -84,7 +84,7 @@ function DeleteModal({ market, onHide, show, DeleteMarketAction }) {
             onClick={() => {
               const id = market.id;
               DeleteMarketAction(id);
-              history.push("/administration");
+              history.push("/administration/markets-maintenance");
               window.location.reload();
             }}
           >
@@ -120,8 +120,8 @@ function MarketsMaintenance({
           <tr style={{ textAlign: "center" }}>
             <th>Abréviation</th>
             <th>Nom du marché</th>
-            <th>Version</th>
             <th>Date d'éffectivité</th>
+            <th>Date fin d'éffectivité</th>
             <th>Date d'ajout</th>
             <th>Date de modification</th>
             <th>Statut</th>
@@ -133,8 +133,8 @@ function MarketsMaintenance({
             <tr key={market.id} style={{ textAlign: "center" }}>
               <td> {market.abreviation}</td>
               <td> {market.nom}</td>
-              <td>{market.version}</td>
               <td>{market.dateEffectivite}</td>
+              <td>{market.dateFinEffectivite}</td>
               <td> {market.dateAjout}</td>
               <td> {market.dateModification}</td>
               <td>
