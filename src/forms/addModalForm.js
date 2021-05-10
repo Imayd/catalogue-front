@@ -42,7 +42,10 @@ const initialValues = {
 
 function AddModalForm({ annuler, AddMarketAction, error }) {
   const history = useHistory();
-  const date = new Date().toISOString().split("T")[0];
+  //const date = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date(today.setDate(today.getDate() + 1))
+    .toISOString()
+    .split("T")[0];
 
   const formik = useFormik({
     initialValues,
@@ -100,7 +103,7 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
           <Form.Control
             type="date"
             name="dateEffectivite"
-            min={date}
+            min={tomorrow}
             format="DD-MM-YYYY"
             {...formik.getFieldProps("dateEffectivite")}
           />
@@ -118,7 +121,7 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
           <Form.Control
             type="date"
             name="dateFinEffectivite"
-            min={date}
+            min={tomorrow}
             format="DD-MM-YYYY"
             {...formik.getFieldProps("dateFinEffectivite")}
           />

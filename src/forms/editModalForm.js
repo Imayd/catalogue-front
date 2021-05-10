@@ -32,7 +32,10 @@ const validationSchema = Yup.object({
 });
 
 function EditModalForm(props) {
-  const date = new Date().toISOString().split("T")[0];
+  //const date = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date(today.setDate(today.getDate() + 1))
+    .toISOString()
+    .split("T")[0];
   const history = useHistory();
   const { market, UpdateMarketAction, onHide, error } = props;
   const marketId = market.id;
@@ -114,7 +117,7 @@ function EditModalForm(props) {
           <Form.Control
             type="date"
             name="dateEffectivite"
-            min={date}
+            min={tomorrow}
             onChange={formik.handleChange}
             value={formik.values.dateEffectivite}
             onBlur={formik.handleBlur}
@@ -133,7 +136,7 @@ function EditModalForm(props) {
           <Form.Control
             type="date"
             name="dateFinEffectivite"
-            min={date}
+            min={tomorrow}
             onChange={formik.handleChange}
             value={formik.values.dateFinEffectivite}
             onBlur={formik.handleBlur}
