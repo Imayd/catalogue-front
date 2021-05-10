@@ -33,6 +33,7 @@ const validationSchema = Yup.object({
 
 function EditModalForm(props) {
   //const date = new Date().toISOString().split("T")[0];
+  const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
     .split("T")[0];

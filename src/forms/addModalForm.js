@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
     .nullable(),
   dateFinEffectivite: Yup.date()
     .required("La date de fin d'effectivité du marché est obligatoire!")
-    .nullable()
+    .nullable(),
 });
 
 const initialValues = {
@@ -42,7 +42,8 @@ const initialValues = {
 
 function AddModalForm({ annuler, AddMarketAction, error }) {
   const history = useHistory();
-  //const date = new Date().toISOString().split("T")[0];
+  //const today = new Date().toISOString().split("T")[0];
+  const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
     .split("T")[0];
