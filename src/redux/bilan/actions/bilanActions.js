@@ -45,23 +45,19 @@ const AddBilanAction = (values) => {
   };
 };
 
-const UpdateBilanAction = (familleProduitsId, familleProduits) => {
+const UpdateBilanAction = (bilanId, bilan) => {
   return async (dispatch) => {
     try {
-      const resp = await axios.put(
-        `/famille-produits/${familleProduitsId}`,
-        familleProduits,
-        {
-          headers: authHeader(),
-        }
-      );
+      const resp = await axios.put(`/bilans/${bilanId}`, bilan, {
+        headers: authHeader(),
+      });
       console.log("resp" + resp.data);
       dispatch({
         type: BilanActionType.UPDATE_BILAN_SUCCESS,
         payload: resp.data,
       });
     } catch (error) {
-      console.log("catched error inside UpdateFamilleProduitsAction ");
+      console.log("catched error inside UpdateBilansAction ");
       dispatch({
         type: BilanActionType.UPDATE_BILAN_FAILED,
         payload: error.response.data,

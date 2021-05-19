@@ -30,26 +30,32 @@ const validationSchema = Yup.object({
   dateFinEffectivite: Yup.string().required(
     "La date de fin d'effectivité est obligatoire!"
   ),
+  market: Yup.string(),
 });
 
 const initialValues = {
   code: "",
   libelle: "",
+  market: "",
   dateEffectivite: "",
   dateFinEffectivite: "",
 };
 
-function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
+function AddModalForm({ annuler, AddFamilleProduitsAction, error, markets }) {
   const history = useHistory();
-  const date = new Date().toISOString().split("T")[0];
+  //const date = new Date().toISOString().split("T")[0];
+  const today = new Date();
+  const tomorrow = new Date(today.setDate(today.getDate() + 1))
+    .toISOString()
+    .split("T")[0];
 
   const formik = useFormik({
     initialValues,
     onSubmit: (values, onSubmitProps) => {
       AddFamilleProduitsAction(values);
       if (error === "") {
-        window.location.reload();
-        history.push("/administration/famille-produits");
+        //window.location.reload();
+        //history.push("/administration/famille-produits");
         console.log(values);
       }
       onSubmitProps.setSubmitting(false);
@@ -93,12 +99,30 @@ function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
             <div className="error-message"> {formik.errors.libelle} </div>
           ) : null}
         </Form.Group>
+        <Form.Group>
+          <Form.Label>Marché associé</Form.Label>
+          <Form.Control
+            as="select"
+            name="market"
+            id="market"
+            {...formik.getFieldProps("market")}
+          >
+            <option>Selectionner un marché</option>
+            {markets.map((m) => (
+              <option value={m.nom}>{m.nom}</option>
+            ))}
+          </Form.Control>
+          {formik.touched.market && formik.errors.market ? (
+            <div className="error-message"> {formik.errors.market} </div>
+          ) : null}
+        </Form.Group>
+
         <Form.Group controlId="dateEffectivite">
           <Form.Label>Date d'éffectivité</Form.Label>
           <Form.Control
             type="date"
             name="dateEffectivite"
-            min={date}
+            min={tomorrow}
             format="DD-MM-YYYY"
             {...formik.getFieldProps("dateEffectivite")}
           />
@@ -116,7 +140,7 @@ function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
           <Form.Control
             type="date"
             name="dateFinEffectivite"
-            min={date}
+            min={tomorrow}
             format="DD-MM-YYYY"
             {...formik.getFieldProps("dateFinEffectivite")}
           />
@@ -157,6 +181,7 @@ function AddModalForm({ annuler, AddFamilleProduitsAction, error }) {
 const mapStateToProps = (state) => {
   return {
     error: state.familleProduits.errors,
+    markets: state.market.markets,
   };
 };
 

@@ -24,23 +24,30 @@ const validationSchema = Yup.object({
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
     .required("Le libellé du type de client est obligatoire!"),
+  familleProduits: Yup.string(),
 });
 
 const initialValues = {
   code: "",
   libelle: "",
+  familleProduits: "",
 };
 
-function AddModalForm({ annuler, AddTypeClientAction, error }) {
+function AddModalForm({
+  annuler,
+  AddTypeClientAction,
+  error,
+  familleProduits,
+}) {
   const history = useHistory();
-
   const formik = useFormik({
     initialValues,
     onSubmit: (values, onSubmitProps) => {
       AddTypeClientAction(values);
+      console.log(values);
       if (error === "") {
-        window.location.reload();
-        history.push("/administration/type-client");
+        //window.location.reload();
+        //history.push("/administration/type-client");
         console.log(values);
       }
       onSubmitProps.setSubmitting(false);
@@ -84,6 +91,26 @@ function AddModalForm({ annuler, AddTypeClientAction, error }) {
             <div className="error-message"> {formik.errors.libelle} </div>
           ) : null}
         </Form.Group>
+        <Form.Group>
+          <Form.Label>Famille de produits associée</Form.Label>
+          <Form.Control
+            as="select"
+            name="familleProduits"
+            id="familleProduits"
+            {...formik.getFieldProps("familleProduits")}
+          >
+            <option>Selectionner une famille de produits</option>
+            {familleProduits.map((fp) => (
+              <option value={fp.libelle}>{fp.libelle}</option>
+            ))}
+          </Form.Control>
+          {formik.touched.familleProduits && formik.errors.familleProduits ? (
+            <div className="error-message">
+              {" "}
+              {formik.errors.familleProduits}{" "}
+            </div>
+          ) : null}
+        </Form.Group>
 
         <hr></hr>
         <div style={{ float: "right" }}>
@@ -112,6 +139,7 @@ function AddModalForm({ annuler, AddTypeClientAction, error }) {
 const mapStateToProps = (state) => {
   return {
     error: state.typeClient.errors,
+    familleProduits: state.familleProduits.familleProduits,
   };
 };
 
@@ -125,3 +153,10 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddModalForm);
+/**
+ * 
+ * {familleProduits.map((fp) => (
+              <option value={fp.id}>{fp.libelle}</option>
+            ))}
+ * 
+ */

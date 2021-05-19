@@ -48,8 +48,8 @@ function AddModalForm({ annuler, AddBilanAction, error }) {
     onSubmit: (values, onSubmitProps) => {
       AddBilanAction(values);
       if (error === "") {
-        window.location.reload();
-        history.push("/administration/bilans");
+        //window.location.reload();
+        //history.push("/administration/bilans");
         console.log(values);
       }
       onSubmitProps.setSubmitting(false);

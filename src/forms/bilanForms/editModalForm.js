@@ -64,8 +64,8 @@ function EditModalForm(props) {
       console.log(values);
       UpdateBilanAction(bilanId, values);
       if (error === "") {
-        window.location.reload();
-        history.push("/administration/bilans");
+        //window.location.reload();
+        //history.push("/administration/bilans");
       }
     },
     validationSchema,
@@ -113,7 +113,7 @@ function EditModalForm(props) {
         <Form.Control
           type="date"
           name="dateEffectivite"
-          min={tomorrow}
+          min={bilanDateEffectivite}
           {...formik.getFieldProps("dateEffectivite")}
         />
 

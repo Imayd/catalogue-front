@@ -22,6 +22,7 @@ const typeClientReducer = (state = initialState, action) => {
 
     case TypeClientActionType.ADD_TYPE_CLIENT_SUCCESS:
       console.log("inside typeClientReducer SUCCESS Add_" + action.payload);
+      window.location.reload();
       return {
         ...state,
         success: true,
@@ -37,6 +38,7 @@ const typeClientReducer = (state = initialState, action) => {
     case TypeClientActionType.UPDATE_TYPE_CLIENT_SUCCESS:
       console.log("inside typeClientReducer SUCCESS Update_");
       console.log(action.payload);
+      window.location.reload();
       return {
         ...state,
         errors: "",
