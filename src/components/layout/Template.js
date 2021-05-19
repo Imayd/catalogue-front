@@ -38,22 +38,7 @@ export default function Template() {
               </NavLink>
             </Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Nav.Link>
-              <NavLink
-                to="/administration/type-client"
-                activeClassName="actived"
-                style={{
-                  textDecoration: "none",
-                  fontStyle: "oblique",
-                  color: "#777575",
-                }}
-              >
-                {" "}
-                Type des clients
-              </NavLink>
-            </Nav.Link>
-          </Nav.Item>
+
           <Nav.Item>
             <Nav.Link>
               <NavLink
@@ -68,6 +53,23 @@ export default function Template() {
               >
                 {" "}
                 Famille de produits
+              </NavLink>
+            </Nav.Link>
+          </Nav.Item>
+
+          <Nav.Item>
+            <Nav.Link>
+              <NavLink
+                to="/administration/type-client"
+                activeClassName="actived"
+                style={{
+                  textDecoration: "none",
+                  fontStyle: "oblique",
+                  color: "#777575",
+                }}
+              >
+                {" "}
+                Type des clients
               </NavLink>
             </Nav.Link>
           </Nav.Item>

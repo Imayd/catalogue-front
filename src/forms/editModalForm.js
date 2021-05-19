@@ -64,8 +64,8 @@ function EditModalForm(props) {
       console.log(values);
       UpdateMarketAction(marketId, values);
       if (error === "") {
-        history.push("/administration/markets-maintenance");
-        window.location.reload();
+        //history.push("/administration/markets-maintenance");
+        //window.location.reload();
       }
     },
     validationSchema,
@@ -118,7 +118,7 @@ function EditModalForm(props) {
           <Form.Control
             type="date"
             name="dateEffectivite"
-            min={tomorrow}
+            min={marketDateEffectivite}
             onChange={formik.handleChange}
             value={formik.values.dateEffectivite}
             onBlur={formik.handleBlur}

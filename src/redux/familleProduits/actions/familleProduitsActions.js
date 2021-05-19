@@ -36,7 +36,7 @@ const AddFamilleProduitsAction = (values) => {
       });
     } catch (error) {
       console.log("catched error inside FamilleProduitsAction ");
-      console.log(error);
+      console.log(error.response.data);
       dispatch({
         type: FamilleProduitsActionType.ADD_FAMILLE_PRODUIT_FAILED,
         payload: error.response.data,
@@ -62,6 +62,7 @@ const UpdateFamilleProduitsAction = (familleProduitsId, familleProduits) => {
       });
     } catch (error) {
       console.log("catched error inside UpdateFamilleProduitsAction ");
+      console.log(error);
       dispatch({
         type: FamilleProduitsActionType.UPDATE_FAMILLE_PRODUIT_FAILED,
         payload: error.response.data,
@@ -72,7 +73,7 @@ const UpdateFamilleProduitsAction = (familleProduitsId, familleProduits) => {
 
 const DeleteFamilleProduitsAction = (id) => {
   console.log("inside DeleteFamilleProduitsAction");
-  console.log("id "+id);
+  console.log("id " + id);
   return async (dispatch) => {
     try {
       console.log("inside try DeleteFamilleProduitsAction");

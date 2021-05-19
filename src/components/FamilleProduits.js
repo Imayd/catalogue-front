@@ -169,11 +169,12 @@ function FamilleProduits(props) {
             setAddModalShow(false);
           }}
         />
-        <Table hover responsive="md" borderless>
+        <Table hover responsive borderless>
           <thead>
-            <tr style={{ textAlign: "center" }}>
+            <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
               <th>Code</th>
               <th>Libellé</th>
+              <th>Marché associé</th>
               <th>Date d'effectivité</th>
               <th>Date de fin d'effectivité</th>
               <th>Date de création</th>
@@ -188,6 +189,7 @@ function FamilleProduits(props) {
               <tr key={familleProduits.id} style={{ textAlign: "center" }}>
                 <td> {familleProduits.code}</td>
                 <td> {familleProduits.libelle}</td>
+                <td>{familleProduits.market}</td>
                 <td>{familleProduits.dateEffectivite}</td>
                 <td>{familleProduits.dateFinEffectivite}</td>
                 <td>{familleProduits.dateCreation}</td>
@@ -235,7 +237,7 @@ function FamilleProduits(props) {
                         AnnulerActionForFP();
                         setEditModalShow(false);
                       }}
-                      familleProduits={familleProduits}
+                      familleProduits={familleProduitsData}
                     />
                   ) : null}
                   {showDeleteModal ? (

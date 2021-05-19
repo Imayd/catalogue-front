@@ -20,31 +20,33 @@ const familleProduitsReducer = (state = initialState, action) => {
         familleProduits: action.payload,
       };
 
-    case FamilleProduitsActionType.ADD_FAMILLE_PRODUITS_SUCCESS:
+    case FamilleProduitsActionType.ADD_FAMILLE_PRODUIT_SUCCESS:
       console.log(
         "inside familleProduitsReducer SUCCESS Add_" + action.payload
       );
+      window.location.reload();
       return {
         ...state,
         success: true,
         errors: "",
       };
-    case FamilleProduitsActionType.ADD_FAMILLE_PRODUITS_FAILED:
+    case FamilleProduitsActionType.ADD_FAMILLE_PRODUIT_FAILED:
       console.log("inside familleProduitsReducer FAILED Add_");
       console.log(action.payload);
       return {
         ...state,
         errors: action.payload,
       };
-    case FamilleProduitsActionType.UPDATE_FAMILLE_PRODUITS_SUCCESS:
+    case FamilleProduitsActionType.UPDATE_FAMILLE_PRODUIT_SUCCESS:
       console.log("inside familleProduitsReducer SUCCESS Update_");
       console.log(action.payload);
+      window.location.reload();
       return {
         ...state,
         errors: "",
         success: true,
       };
-    case FamilleProduitsActionType.UPDATE_FAMILLE_PRODUITS_FAILED:
+    case FamilleProduitsActionType.UPDATE_FAMILLE_PRODUIT_FAILED:
       console.log("inside familleProduitsReducer FAILED Update_");
       console.log(action.payload);
 
@@ -52,7 +54,7 @@ const familleProduitsReducer = (state = initialState, action) => {
         ...state,
         errors: action.payload,
       };
-    case FamilleProduitsActionType.DELETE_FAMILLE_PRODUITS_SUCCESS:
+    case FamilleProduitsActionType.DELETE_FAMILLE_PRODUIT_SUCCESS:
       console.log(
         "inside familleProduitsReducer SUCCESS delete_" + action.payload
       );
@@ -61,7 +63,7 @@ const familleProduitsReducer = (state = initialState, action) => {
         errors: "",
         success: true,
       };
-    case FamilleProduitsActionType.DELETE_FAMILLE_PRODUITS_FAILED:
+    case FamilleProduitsActionType.DELETE_FAMILLE_PRODUIT_FAILED:
       console.log(
         "inside familleProduitsReducer FAILED DELETE_" + action.payload
       );

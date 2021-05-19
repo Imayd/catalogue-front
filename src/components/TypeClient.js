@@ -125,6 +125,7 @@ function TypeClient(props) {
     DeleteTypeClientAction,
     AnnulerActionForTC,
   } = props;
+
   const [addModalShow, setAddModalShow] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
@@ -162,14 +163,16 @@ function TypeClient(props) {
             setAddModalShow(false);
           }}
         />
-        <Table hover responsive="md" borderless>
+        <Table hover responsive borderless>
           <thead>
             <tr style={{ textAlign: "center" }}>
               <th>ID</th>
               <th>Code</th>
               <th>Libellé</th>
+              <th>Famille de produits associée</th>
               <th>Date de création</th>
               <th>Date de modification</th>
+              <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -180,8 +183,26 @@ function TypeClient(props) {
                 <td> {typeClient.id}</td>
                 <td> {typeClient.code}</td>
                 <td> {typeClient.libelle}</td>
+                <td>{typeClient.familleProduits}</td>
                 <td>{typeClient.dateCreation}</td>
                 <td>{typeClient.dateModification}</td>
+                <td>
+                  {typeClient.statut ? (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        fontWeight: "450",
+                        color: "#e29c32",
+                      }}
+                    >
+                      Actif
+                    </div>
+                  ) : (
+                    <div style={{ textAlign: "center", fontWeight: "400" }}>
+                      Inactif
+                    </div>
+                  )}
+                </td>
                 <td>
                   <div className="row">
                     <FaEdit

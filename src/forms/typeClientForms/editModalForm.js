@@ -23,18 +23,27 @@ const validationSchema = Yup.object({
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
     .required("Le libellé du type de client est obligatoire!"),
+  familleProduits: Yup.string(),
 });
 
 function EditModalForm(props) {
   const history = useHistory();
-  const { typeClient, UpdateTypeClientAction, onHide, error } = props;
+  const {
+    typeClient,
+    UpdateTypeClientAction,
+    onHide,
+    error,
+    familleProduits,
+  } = props;
   const typeClientId = typeClient.id;
   const typeClientCode = typeClient.code;
   const typeClientLibelle = typeClient.libelle;
+  const typeClientFP = typeClient.familleProduits;
 
   const initialValues = {
     code: typeClientCode,
     libelle: typeClientLibelle,
+    familleProduits: typeClientFP,
   };
 
   const formik = useFormik({
@@ -44,9 +53,8 @@ function EditModalForm(props) {
       console.log(values);
       UpdateTypeClientAction(typeClientId, values);
       if (error === "") {
-        window.location.reload();
-        history.push("/administration/type-client");
-        //
+        //window.location.reload();
+        //history.push("/administration/type-client");
       }
     },
     validationSchema,
@@ -88,6 +96,20 @@ function EditModalForm(props) {
           <div className="error-message"> {formik.errors.libelle} </div>
         ) : null}
       </Form.Group>
+      <Form.Group>
+        <Form.Label>Famille de produits associée</Form.Label>
+        <Form.Control
+          as="select"
+          name="familleProduits"
+          id="familleProduits"
+          {...formik.getFieldProps("familleProduits")}
+        >
+          <option>Selectionner une famille de produits</option>
+          {familleProduits.map((fp) => (
+            <option value={fp.libelle}>{fp.libelle}</option>
+          ))}
+        </Form.Control>
+      </Form.Group>
       <hr></hr>
       <div style={{ float: "right" }}>
         <Button
@@ -119,6 +141,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     error: state.typeClient.errors,
+    familleProduits: state.familleProduits.familleProduits,
   };
 };
 

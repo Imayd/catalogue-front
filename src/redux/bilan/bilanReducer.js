@@ -22,6 +22,8 @@ const bilanReducer = (state = initialState, action) => {
 
     case BilanActionType.ADD_BILAN_SUCCESS:
       console.log("inside bilanReducer SUCCESS Add_" + action.payload);
+      //history.push("/administration/bilans");
+      window.location.reload();
       return {
         ...state,
         success: true,
@@ -37,6 +39,7 @@ const bilanReducer = (state = initialState, action) => {
     case BilanActionType.UPDATE_BILAN_SUCCESS:
       console.log("inside bilanReducer SUCCESS Update_");
       console.log(action.payload);
+      window.location.reload();
       return {
         ...state,
         errors: "",
@@ -45,7 +48,6 @@ const bilanReducer = (state = initialState, action) => {
     case BilanActionType.UPDATE_BILAN_FAILED:
       console.log("inside bilanReducer FAILED Update_");
       console.log(action.payload);
-
       return {
         ...state,
         errors: action.payload,

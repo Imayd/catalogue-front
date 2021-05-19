@@ -53,8 +53,8 @@ function AddModalForm({ annuler, AddMarketAction, error }) {
     onSubmit: (values, onSubmitProps) => {
       AddMarketAction(values);
       if (error === "") {
-        history.push("/administration/markets-maintenance");
-        window.location.reload();
+        //history.push("/administration/markets-maintenance");
+        //window.location.reload();
         console.log(values);
       }
       onSubmitProps.setSubmitting(false);

@@ -29,6 +29,7 @@ const validationSchema = Yup.object({
   dateFinEffectivite: Yup.string().required(
     "La date de fin d'effectivité est obligatoire!"
   ),
+  market: Yup.string(),
 });
 
 function EditModalForm(props) {
@@ -37,7 +38,13 @@ function EditModalForm(props) {
     .toISOString()
     .split("T")[0];
   const history = useHistory();
-  const { familleProduits, UpdateFamilleProduitsAction, onHide, error } = props;
+  const {
+    familleProduits,
+    UpdateFamilleProduitsAction,
+    onHide,
+    error,
+    markets,
+  } = props;
   const familleProduitsId = familleProduits.id;
   const familleProduitsCode = familleProduits.code;
   const familleProduitsLibelle = familleProduits.libelle;
@@ -50,11 +57,14 @@ function EditModalForm(props) {
     .reverse()
     .join("-");
 
+  const familleProduitsMarket = familleProduits.market;
+
   const initialValues = {
     code: familleProduitsCode,
     libelle: familleProduitsLibelle,
     dateEffectivite: familleProduitsDateEffectivite,
     dateFinEffectivite: familleProduitsDateFinEffectivite,
+    market: familleProduitsMarket,
   };
 
   const formik = useFormik({
@@ -64,8 +74,8 @@ function EditModalForm(props) {
       console.log(values);
       UpdateFamilleProduitsAction(familleProduitsId, values);
       if (error === "") {
-        window.location.reload();
-        history.push("/administration/famille-produits");
+        //history.push("/administration/famille-produits");
+        //window.location.reload();
       }
     },
     validationSchema,
@@ -107,13 +117,30 @@ function EditModalForm(props) {
           <div className="error-message"> {formik.errors.libelle} </div>
         ) : null}
       </Form.Group>
+      <Form.Group>
+        <Form.Label>Marché associé</Form.Label>
+        <Form.Control
+          as="select"
+          name="market"
+          id="market"
+          {...formik.getFieldProps("market")}
+        >
+          <option>Selectionner un marché</option>
+          {markets.map((m) => (
+            <option value={m.nom}>{m.nom}</option>
+          ))}
+        </Form.Control>
+        {formik.touched.market && formik.errors.market ? (
+          <div className="error-message"> {formik.errors.market} </div>
+        ) : null}
+      </Form.Group>
       <Form.Group controlId="dateEffectivite">
         <Form.Label>Date d'éffectivité</Form.Label>
 
         <Form.Control
           type="date"
           name="dateEffectivite"
-          min={tomorrow}
+          min={familleProduitsDateEffectivite}
           {...formik.getFieldProps("dateEffectivite")}
         />
 
@@ -170,6 +197,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     error: state.familleProduits.errors,
+    markets: state.market.markets,
   };
 };
 
