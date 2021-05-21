@@ -10,6 +10,7 @@ import TypeClient from "./components/TypeClient";
 import Page404 from "./components/layout/404.page";
 import FamilleProduits from "./components/FamilleProduits";
 import Bilan from "./components/Bilan";
+import Template from "./components/layout/Template";
 
 function App() {
   return (
@@ -42,6 +43,11 @@ function App() {
             exact
             path="/administration/bilans"
             component={Bilan}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/monetique"
+            component={Template}
           />
           <Route path="*" component={Page404} />
         </Switch>

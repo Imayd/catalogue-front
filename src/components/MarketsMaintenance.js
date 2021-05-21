@@ -8,7 +8,7 @@ import {
 import { Table, Modal, Button } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import EditModalForm from "../forms/editModalForm";
+import EditModalForm from "../forms/marketForms/editModalForm";
 import { useHistory } from "react-router";
 
 /**

@@ -1,7 +1,7 @@
 import React from "react";
 import MarketsMaintenance from "./MarketsMaintenance";
 import Button from "react-bootstrap/Button";
-import AddModalForm from "../forms/addModalForm";
+import AddModalForm from "../forms/marketForms/addModalForm";
 import { Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { AnnulerAction } from "../redux/market.maintenance/actions/marketActions";

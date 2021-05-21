@@ -1,10 +1,11 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
-import { UpdateMarketAction } from "../redux/market.maintenance/actions/marketActions";
+import "react-datepicker/dist/react-datepicker.css";
+
+import { AddMarketAction } from "../../redux/market.maintenance/actions/marketActions";
 
 const validationSchema = Yup.object({
   nom: Yup.string()
@@ -23,55 +24,43 @@ const validationSchema = Yup.object({
       "L'abréviation ne doit pas contenir des caractères spéciaux"
     )
     .required("L'abréviation du marché est obligatoire!"),
-  dateEffectivite: Yup.string().required(
-    "La date d'effectivité du marché est obligatoire!"
-  ),
-  dateFinEffectivite: Yup.string().required(
-    "La date de fin d'effectivité du marché est obligatoire!"
-  ),
+  dateEffectivite: Yup.date()
+    .required("La date d'effectivité du marché est obligatoire!")
+    .nullable(),
+  dateFinEffectivite: Yup.date()
+    .required("La date de fin d'effectivité du marché est obligatoire!")
+    .nullable(),
 });
 
-function EditModalForm(props) {
-  //const date = new Date().toISOString().split("T")[0];
+const initialValues = {
+  nom: "",
+  abreviation: "",
+  dateEffectivite: "",
+  dateFinEffectivite: "",
+};
+
+function AddModalForm({ annuler, AddMarketAction, error }) {
+  //const today = new Date().toISOString().split("T")[0];
   const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
     .split("T")[0];
-  const history = useHistory();
-  const { market, UpdateMarketAction, onHide, error } = props;
-  const marketId = market.id;
-  const marketNom = market.nom;
-  const marketDateFinEffectivite = market.dateFinEffectivite
-    .split("-")
-    .reverse()
-    .join("-");
-  const marketAbreviation = market.abreviation;
-  const marketDateEffectivite = market.dateEffectivite
-    .split("-")
-    .reverse()
-    .join("-");
-  const initialValues = {
-    nom: marketNom,
-    abreviation: marketAbreviation,
-    dateFinEffectivite: marketDateFinEffectivite,
-    dateEffectivite: marketDateEffectivite,
-  };
 
   const formik = useFormik({
     initialValues,
-    onSubmit: (values) => {
-      console.log("inside onSubmit in editModalForm");
-      console.log(values);
-      UpdateMarketAction(marketId, values);
+    onSubmit: (values, onSubmitProps) => {
+      AddMarketAction(values);
       if (error === "") {
         //history.push("/administration/markets-maintenance");
         //window.location.reload();
+        console.log(values);
       }
+      onSubmitProps.setSubmitting(false);
     },
     validationSchema,
   });
   return (
-    <div>
+    <Formik validateOnChange={false}>
       <Form onSubmit={formik.handleSubmit}>
         {error ? (
           <div className="alert alert-danger" role="alert">
@@ -86,13 +75,11 @@ function EditModalForm(props) {
             placeholder="Entrer le nom du marché"
             name="nom"
             id="nom"
-            onChange={formik.handleChange}
-            value={formik.values.nom}
-            onBlur={formik.handleBlur}
+            {...formik.getFieldProps("nom")}
           />
 
           {formik.touched.nom && formik.errors.nom ? (
-            <div className="error-message"> {formik.errors.nom} </div>
+            <div className="error-message">{formik.errors.nom}</div>
           ) : null}
         </Form.Group>
 
@@ -102,9 +89,7 @@ function EditModalForm(props) {
             type="text"
             placeholder="Entrer l'abréviation du marché"
             name="abreviation"
-            onChange={formik.handleChange}
-            value={formik.values.abreviation}
-            onBlur={formik.handleBlur}
+            {...formik.getFieldProps("abreviation")}
           />
 
           {formik.touched.abreviation && formik.errors.abreviation ? (
@@ -114,14 +99,12 @@ function EditModalForm(props) {
 
         <Form.Group controlId="dateEffectivite">
           <Form.Label>Date d'éffectivité</Form.Label>
-
           <Form.Control
             type="date"
             name="dateEffectivite"
-            min={marketDateEffectivite}
-            onChange={formik.handleChange}
-            value={formik.values.dateEffectivite}
-            onBlur={formik.handleBlur}
+            min={tomorrow}
+            format="DD-MM-YYYY"
+            {...formik.getFieldProps("dateEffectivite")}
           />
 
           {formik.touched.dateEffectivite && formik.errors.dateEffectivite ? (
@@ -131,16 +114,15 @@ function EditModalForm(props) {
             </div>
           ) : null}
         </Form.Group>
+
         <Form.Group controlId="dateFinEffectivite">
           <Form.Label>Date de fin d'éffectivité</Form.Label>
-
           <Form.Control
             type="date"
             name="dateFinEffectivite"
             min={tomorrow}
-            onChange={formik.handleChange}
-            value={formik.values.dateFinEffectivite}
-            onBlur={formik.handleBlur}
+            format="DD-MM-YYYY"
+            {...formik.getFieldProps("dateFinEffectivite")}
           />
 
           {formik.touched.dateFinEffectivite &&
@@ -151,34 +133,30 @@ function EditModalForm(props) {
             </div>
           ) : null}
         </Form.Group>
+
         <hr></hr>
         <div style={{ float: "right" }}>
           <Button
             type="reset"
             variant="secondary"
             style={{ borderRadius: "20px" }}
-            onClick={onHide}
+            onClick={annuler}
           >
             Annuler
           </Button>
           <Button
             type="submit"
             variant="warning"
+            disabled={!(formik.dirty && formik.isValid) || formik.isSubmitting}
             style={{ marginLeft: "8px", borderRadius: "20px" }}
           >
             Enregistrer
           </Button>
         </div>
       </Form>
-    </div>
+    </Formik>
   );
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    UpdateMarketAction: (marketId, values) =>
-      dispatch(UpdateMarketAction(marketId, values)),
-  };
-};
 
 const mapStateToProps = (state) => {
   return {
@@ -186,4 +164,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditModalForm);
+/*
+TO MAP ACTION CREATORS TO PROPS
+*/
+const mapDispatchToProps = (dispatch) => {
+  return {
+    AddMarketAction: (values) => dispatch(AddMarketAction(values)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddModalForm);

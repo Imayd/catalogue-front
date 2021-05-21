@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
 import { UpdateBilanAction } from "../../redux/bilan/actions/bilanActions";
 
 const validationSchema = Yup.object({
@@ -36,7 +35,6 @@ function EditModalForm(props) {
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
     .split("T")[0];
-  const history = useHistory();
   const { bilan, UpdateBilanAction, onHide, error } = props;
   const bilanId = bilan.id;
   const bilanCode = bilan.code;

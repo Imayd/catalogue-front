@@ -3,7 +3,6 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
 
 import { AddTypeClientAction } from "../../redux/typeClient/actions/typeClientActions";
 
@@ -39,7 +38,6 @@ function AddModalForm({
   error,
   familleProduits,
 }) {
-  const history = useHistory();
   const formik = useFormik({
     initialValues,
     onSubmit: (values, onSubmitProps) => {

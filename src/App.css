@@ -148,3 +148,10 @@ th {
   color: #fa9315;
   background-color: #777575;
 }
+
+.activeSubMenu {
+  text-decoration: underline !important;
+  text-decoration-color: #f1bd7c !important;
+  text-decoration-style: solid;
+  text-decoration-thickness: 4.5px !important;
+}

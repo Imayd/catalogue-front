@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
 import { UpdateTypeClientAction } from "../../redux/typeClient/actions/typeClientActions";
 
 const validationSchema = Yup.object({
@@ -27,7 +26,6 @@ const validationSchema = Yup.object({
 });
 
 function EditModalForm(props) {
-  const history = useHistory();
   const {
     typeClient,
     UpdateTypeClientAction,

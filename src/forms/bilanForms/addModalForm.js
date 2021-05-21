@@ -3,7 +3,6 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
 
 import { AddBilanAction } from "../../redux/bilan/actions/bilanActions";
 
@@ -40,7 +39,6 @@ const initialValues = {
 };
 
 function AddModalForm({ annuler, AddBilanAction, error }) {
-  const history = useHistory();
   const date = new Date().toISOString().split("T")[0];
 
   const formik = useFormik({

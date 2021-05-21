@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
 import { UpdateFamilleProduitsAction } from "../../redux/familleProduits/actions/familleProduitsActions";
 
 const validationSchema = Yup.object({
@@ -37,7 +36,6 @@ function EditModalForm(props) {
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
     .split("T")[0];
-  const history = useHistory();
   const {
     familleProduits,
     UpdateFamilleProduitsAction,

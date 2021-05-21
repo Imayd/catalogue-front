@@ -3,7 +3,6 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
 
 import { AddFamilleProduitsAction } from "../../redux/familleProduits/actions/familleProduitsActions";
 
@@ -42,7 +41,6 @@ const initialValues = {
 };
 
 function AddModalForm({ annuler, AddFamilleProduitsAction, error, markets }) {
-  const history = useHistory();
   //const date = new Date().toISOString().split("T")[0];
   const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1))

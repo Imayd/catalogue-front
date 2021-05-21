@@ -5,6 +5,11 @@
   justify-content: start;
   align-items: center;
 }*/
+.menu-bars2 {
+  margin-left: 1.9rem;
+  font-size: 1.7rem;
+  background: none;
+}
 .menu-bars {
   margin-left: 2rem;
   font-size: 2rem;
@@ -78,3 +83,24 @@
 span {
   margin-left: 16px;
 }
+.subMenu {
+  margin-left: 45px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  color: #222;
+  margin-top: 5px;
+  text-justify: inter-character;
+  margin-bottom: 15px;
+  white-space: nowrap;
+}
+
+.liSubMenu :hover {
+  color: #e27e32;
+}
+
+/*.activeSubMenu {
+  text-decoration-line: underline;
+  text-decoration-color: #e27e32;
+}*/
