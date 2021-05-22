@@ -18,6 +18,10 @@
   color: #fa9315 !important;
 }
 
+.actived:hover {
+  color: #fa9315 !important;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 * {

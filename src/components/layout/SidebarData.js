@@ -3,13 +3,13 @@ import * as FaIcons from "react-icons/fa";
 export const SidebarData = [
   {
     title: "Administration",
-    path: "/administration",
+    path: "/administration/",
     icon: <FaIcons.FaCog></FaIcons.FaCog>,
     cName: "nav-text",
   },
   {
     title: "Produits",
-    path: "/produits",
+    path: "/produits/monetique/themes",
     icon: <FaIcons.FaBoxOpen />,
     cName: "nav-text",
     subNav: [
@@ -19,7 +19,7 @@ export const SidebarData = [
       },
       {
         title: "Monétique",
-        path: "/produits/monetique",
+        path: "/produits/monetique/themes",
       },
 
       {

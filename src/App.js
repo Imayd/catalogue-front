@@ -10,7 +10,8 @@ import TypeClient from "./components/TypeClient";
 import Page404 from "./components/layout/404.page";
 import FamilleProduits from "./components/FamilleProduits";
 import Bilan from "./components/Bilan";
-import Template from "./components/layout/Template";
+import Theme from "./components/Theme";
+import Monetique from "./components/Monetique";
 
 function App() {
   return (
@@ -45,10 +46,15 @@ function App() {
             component={Bilan}
           />
           <ProtectedRoute
+            path="/produits/monetique/themes"
+            component={Monetique}
+          />
+          <ProtectedRoute
             exact
             path="/produits/monetique"
-            component={Template}
+            component={Monetique}
           />
+
           <Route path="*" component={Page404} />
         </Switch>
       </Router>
