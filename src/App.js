@@ -10,7 +10,6 @@ import TypeClient from "./components/TypeClient";
 import Page404 from "./components/layout/404.page";
 import FamilleProduits from "./components/FamilleProduits";
 import Bilan from "./components/Bilan";
-import Theme from "./components/Theme";
 import Monetique from "./components/Monetique";
 
 function App() {
