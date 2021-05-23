@@ -23,8 +23,8 @@ export const SidebarData = [
       },
 
       {
-        title: "Package",
-        path: "/produits/package",
+        title: "Services",
+        path: "/produits/services",
       },
     ],
   },
