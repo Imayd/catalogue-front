@@ -8,7 +8,7 @@ import EditModalForm from "../forms/familleProduitsForms/editModalForm";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { useHistory } from "react-router";
-
+import { GetMarketsAction } from "../redux/market.maintenance/actions/marketActions";
 import {
   GetFamillesProduitsAction,
   DeleteFamilleProduitsAction,
@@ -127,6 +127,7 @@ function FamilleProduits(props) {
   const {
     familleProduits,
     GetFamillesProduitsAction,
+    GetMarketsAction,
     DeleteFamilleProduitsAction,
     AnnulerActionForFP,
   } = props;
@@ -140,7 +141,8 @@ function FamilleProduits(props) {
 
   useEffect(() => {
     GetFamillesProduitsAction();
-  }, [GetFamillesProduitsAction]);
+    GetMarketsAction();
+  }, [GetFamillesProduitsAction, GetMarketsAction]);
 
   return (
     <>
@@ -272,6 +274,7 @@ const mapStateToProps = (state) => {
     */
 const mapDispatchToProps = (dispatch) => ({
   GetFamillesProduitsAction: () => dispatch(GetFamillesProduitsAction()),
+  GetMarketsAction: () => dispatch(GetMarketsAction()),
   DeleteFamilleProduitsAction: (id) =>
     dispatch(DeleteFamilleProduitsAction(id)),
   AnnulerActionForFP: () => dispatch(AnnulerActionForFP()),

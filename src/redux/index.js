@@ -6,6 +6,8 @@ import typeClientReducer from "./typeClient/typeClientReducer";
 import familleProduitsReducer from "./familleProduits/familleProduitsReducer";
 import bilanReducer from "./bilan/bilanReducer";
 import themeReducer from "./theme/themeReducer";
+import typeServiceReducer from "./typeService/typeServiceReducer";
+import categorieServiceReducer from "./categorieService/categorieServiceReducer";
 
 export default combineReducers({
   error: errorsReducer,
@@ -15,4 +17,6 @@ export default combineReducers({
   familleProduits: familleProduitsReducer,
   bilan: bilanReducer,
   theme: themeReducer,
+  typeService: typeServiceReducer,
+  categorieService: categorieServiceReducer,
 });

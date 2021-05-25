@@ -11,6 +11,9 @@ import Page404 from "./components/layout/404.page";
 import FamilleProduits from "./components/FamilleProduits";
 import Bilan from "./components/Bilan";
 import Monetique from "./components/Monetique";
+import TypeService from "./components/TypeService";
+import CategorieService from "./components/CategorieService";
+//import Services from "./components/Services";
 
 function App() {
   return (
@@ -44,7 +47,24 @@ function App() {
             path="/administration/bilans"
             component={Bilan}
           />
+          <ProtectedRoute exact path="/produits/" component={Monetique} />
           <ProtectedRoute
+            exact
+            path="/produits/services"
+            component={TypeService}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/services/type-service"
+            component={TypeService}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/services/categorie-service"
+            component={CategorieService}
+          />
+          <ProtectedRoute
+            exact
             path="/produits/monetique/themes"
             component={Monetique}
           />

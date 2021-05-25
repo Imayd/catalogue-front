@@ -8,7 +8,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import EditModalForm from "../forms/typeClientForms/editModalForm";
 import { useHistory } from "react-router";
-
+import { GetFamillesProduitsAction } from "../redux/familleProduits/actions/familleProduitsActions";
 import {
   GetTypesClientAction,
   DeleteTypeClientAction,
@@ -122,6 +122,7 @@ function TypeClient(props) {
   const {
     typesClient,
     GetTypesClientAction,
+    GetFamillesProduitsAction,
     DeleteTypeClientAction,
     AnnulerActionForTC,
   } = props;
@@ -135,7 +136,8 @@ function TypeClient(props) {
 
   useEffect(() => {
     GetTypesClientAction();
-  }, [GetTypesClientAction]);
+    GetFamillesProduitsAction();
+  }, [GetTypesClientAction, GetFamillesProduitsAction]);
   return (
     <>
       <Template />
@@ -264,6 +266,7 @@ const mapStateToProps = (state) => {
   */
 const mapDispatchToProps = (dispatch) => ({
   GetTypesClientAction: () => dispatch(GetTypesClientAction()),
+  GetFamillesProduitsAction: () => dispatch(GetFamillesProduitsAction()),
   DeleteTypeClientAction: (id) => dispatch(DeleteTypeClientAction(id)),
   AnnulerActionForTC: () => dispatch(AnnulerActionForTC()),
 });
