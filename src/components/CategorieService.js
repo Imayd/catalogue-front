@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import Template from "./layout/Template";
+import ServicesTemplate from "./layout/ServicesTemplate";
 import { Table, Modal, Button } from "react-bootstrap";
-import AddModalForm from "../forms/familleProduitsForms/addModalForm";
-import EditModalForm from "../forms/familleProduitsForms/editModalForm";
+import AddModalForm from "../forms/categorieServiceForms/addModalForm";
 
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
+import EditModalForm from "../forms/categorieServiceForms/editModalForm";
 import { useHistory } from "react-router";
-import { GetMarketsAction } from "../redux/market.maintenance/actions/marketActions";
+
 import {
-  GetFamillesProduitsAction,
-  DeleteFamilleProduitsAction,
-  AnnulerActionForFP,
-} from "../redux/familleProduits/actions/familleProduitsActions";
+  GetCategoriesServiceAction,
+  DeleteCategorieServiceAction,
+  AnnulerAction,
+} from "../redux/categorieService/categorieServiceActions";
+import { GetTypesServiceAction } from "../redux/typeService/typeServiceActions";
 
 function AddModal(props) {
   return (
@@ -28,7 +29,7 @@ function AddModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter une famille de produits
+            Ajouter une Catégorie de Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -52,7 +53,7 @@ function EditModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modifier la famille de produits
+            Modifier la Catégorie de Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -64,10 +65,10 @@ function EditModal(props) {
 }
 
 function DeleteModal({
-  familleProduits,
+  categorieService,
   onHide,
   show,
-  DeleteFamilleProduitsAction,
+  DeleteCategorieServiceAction,
 }) {
   const history = useHistory();
   return (
@@ -83,14 +84,14 @@ function DeleteModal({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Supprimer la famille de produits
+            Supprimer la Catégorie de Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            Souhaitez-vous supprimer la famille de produits '
+            Souhaitez-vous supprimer la Catégorie de Service '
             <strong>
-              <i>{familleProduits.libelle}</i>
+              <i>{categorieService.libelle}</i>
             </strong>
             ' ?
           </p>
@@ -109,9 +110,9 @@ function DeleteModal({
             variant="warning"
             style={{ marginLeft: "8px", borderRadius: "20px" }}
             onClick={() => {
-              const id = familleProduits.id;
-              DeleteFamilleProduitsAction(id);
-              history.push("/administration/famille-produits");
+              const id = categorieService.id;
+              DeleteCategorieServiceAction(id);
+              history.push("/produits/services/categorie-service");
               window.location.reload();
             }}
           >
@@ -123,13 +124,13 @@ function DeleteModal({
   );
 }
 
-function FamilleProduits(props) {
+function CategorieService(props) {
   const {
-    familleProduits,
-    GetFamillesProduitsAction,
-    GetMarketsAction,
-    DeleteFamilleProduitsAction,
-    AnnulerActionForFP,
+    categoriesService,
+    GetCategoriesServiceAction,
+    GetTypesServiceAction,
+    DeleteCategorieServiceAction,
+    AnnulerAction,
   } = props;
 
   const [addModalShow, setAddModalShow] = React.useState(false);
@@ -137,16 +138,15 @@ function FamilleProduits(props) {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [editModalShow, setEditModalShow] = React.useState(false);
   const [deleteModalShow, setDeleteModalShow] = React.useState(false);
-  const [familleProduitsData, setFamilleProduitsData] = React.useState({});
+  const [categorieServiceData, setCategorieServiceData] = React.useState({});
 
   useEffect(() => {
-    GetFamillesProduitsAction();
-    GetMarketsAction();
-  }, [GetFamillesProduitsAction, GetMarketsAction]);
-
+    GetCategoriesServiceAction();
+    GetTypesServiceAction();
+  }, [GetCategoriesServiceAction, GetTypesServiceAction]);
   return (
     <>
-      <Template />
+      <ServicesTemplate />
       <div style={{ marginBottom: "45px" }}></div>
 
       <div className="data">
@@ -162,64 +162,44 @@ function FamilleProduits(props) {
           onClick={() => setAddModalShow(true)}
         >
           {" "}
-          + Ajouter une famille de produits
+          + Ajouter une Catégorie de Service
         </Button>
         <AddModal
           show={addModalShow}
           onHide={() => {
-            AnnulerActionForFP();
+            AnnulerAction();
             setAddModalShow(false);
           }}
         />
         <Table hover responsive borderless>
           <thead>
             <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
-              <th>Code</th>
+              <th>Type service</th>
+              <th>ID Catégorie</th>
               <th>Libellé</th>
-              <th>Marché associé</th>
-              <th>Date d'effectivité</th>
-              <th>Date de fin d'effectivité</th>
+              <th>Description</th>
               <th>Date de création</th>
               <th>Date de modification</th>
-              <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {familleProduits.map((familleProduits) => (
-              <tr key={familleProduits.id} style={{ textAlign: "center" }}>
-                <td> {familleProduits.code}</td>
-                <td> {familleProduits.libelle}</td>
-                <td>{familleProduits.market}</td>
-                <td>{familleProduits.dateEffectivite}</td>
-                <td>{familleProduits.dateFinEffectivite}</td>
-                <td>{familleProduits.dateCreation}</td>
-                <td>{familleProduits.dateModification}</td>
-                <td>
-                  {familleProduits.statut ? (
-                    <div
-                      style={{
-                        textAlign: "center",
-                        fontWeight: "450",
-                        color: "#e29c32",
-                      }}
-                    >
-                      Actif
-                    </div>
-                  ) : (
-                    <div style={{ textAlign: "center", fontWeight: "400" }}>
-                      Inactif
-                    </div>
-                  )}
-                </td>
+            {categoriesService.map((categorieService) => (
+              <tr key={categorieService.id} style={{ textAlign: "center" }}>
+                <td> {categorieService.typeService}</td>
+                <td>{categorieService.id}</td>
+                <td> {categorieService.libelle}</td>
+                <td> {categorieService.description}</td>
+                <td>{categorieService.dateCreation}</td>
+                <td>{categorieService.dateModification}</td>
                 <td>
                   <div className="row">
                     <FaEdit
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
                         setEditModalShow(true);
-                        setFamilleProduitsData(familleProduits);
+                        setCategorieServiceData(categorieService);
                         setShowEditModal(true);
                       }}
                     />
@@ -227,7 +207,7 @@ function FamilleProduits(props) {
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
                         setDeleteModalShow(true);
-                        setFamilleProduitsData(familleProduits);
+                        setCategorieServiceData(categorieService);
                         setShowDeleteModal(true);
                       }}
                     />
@@ -236,18 +216,20 @@ function FamilleProduits(props) {
                     <EditModal
                       show={editModalShow}
                       onHide={() => {
-                        AnnulerActionForFP();
+                        AnnulerAction();
                         setEditModalShow(false);
                       }}
-                      familleProduits={familleProduitsData}
+                      categorieService={categorieServiceData}
                     />
                   ) : null}
                   {showDeleteModal ? (
                     <DeleteModal
                       show={deleteModalShow}
                       onHide={() => setDeleteModalShow(false)}
-                      familleProduits={familleProduitsData}
-                      DeleteFamilleProduitsAction={DeleteFamilleProduitsAction}
+                      categorieService={categorieServiceData}
+                      DeleteCategorieServiceAction={
+                        DeleteCategorieServiceAction
+                      }
                     />
                   ) : null}
                 </td>
@@ -265,19 +247,19 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */
 const mapStateToProps = (state) => {
   return {
-    familleProduits: state.familleProduits.familleProduits,
+    categoriesService: state.categorieService.categoriesService,
   };
 };
 
 /*
-    TO MAP ACTION CREATORS TO PROPS
-    */
+  TO MAP ACTION CREATORS TO PROPS
+  */
 const mapDispatchToProps = (dispatch) => ({
-  GetFamillesProduitsAction: () => dispatch(GetFamillesProduitsAction()),
-  GetMarketsAction: () => dispatch(GetMarketsAction()),
-  DeleteFamilleProduitsAction: (id) =>
-    dispatch(DeleteFamilleProduitsAction(id)),
-  AnnulerActionForFP: () => dispatch(AnnulerActionForFP()),
+  GetCategoriesServiceAction: () => dispatch(GetCategoriesServiceAction()),
+  GetTypesServiceAction: () => dispatch(GetTypesServiceAction()),
+  DeleteCategorieServiceAction: (id) =>
+    dispatch(DeleteCategorieServiceAction(id)),
+  AnnulerAction: () => dispatch(AnnulerAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FamilleProduits);
+export default connect(mapStateToProps, mapDispatchToProps)(CategorieService);

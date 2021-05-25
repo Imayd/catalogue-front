@@ -107,7 +107,7 @@ function Theme({ themes, GetThemesAction, DeleteThemeAction, CancelAction }) {
 
       <Table hover responsive="md" borderless>
         <thead>
-          <tr style={{ textAlign: "center" }}>
+          <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
             <th>Code</th>
             <th>Désignation</th>
             <th>Description du thème</th>

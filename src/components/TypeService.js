@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import Template from "./layout/Template";
+import ServicesTemplate from "./layout/ServicesTemplate";
 import { Table, Modal, Button } from "react-bootstrap";
-import AddModalForm from "../forms/familleProduitsForms/addModalForm";
-import EditModalForm from "../forms/familleProduitsForms/editModalForm";
+import AddModalForm from "../forms/typeServiceForms/addModalForm";
 
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
+import EditModalForm from "../forms/typeServiceForms/editModalForm";
 import { useHistory } from "react-router";
-import { GetMarketsAction } from "../redux/market.maintenance/actions/marketActions";
+
 import {
-  GetFamillesProduitsAction,
-  DeleteFamilleProduitsAction,
-  AnnulerActionForFP,
-} from "../redux/familleProduits/actions/familleProduitsActions";
+  GetTypesServiceAction,
+  DeleteTypeServiceAction,
+  AnnulerAction,
+} from "../redux/typeService/typeServiceActions";
 
 function AddModal(props) {
   return (
@@ -28,7 +28,7 @@ function AddModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter une famille de produits
+            Ajouter un Type de Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -52,7 +52,7 @@ function EditModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modifier la famille de produits
+            Modifier le Type de Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -63,12 +63,7 @@ function EditModal(props) {
   );
 }
 
-function DeleteModal({
-  familleProduits,
-  onHide,
-  show,
-  DeleteFamilleProduitsAction,
-}) {
+function DeleteModal({ typeService, onHide, show, DeleteTypeServiceAction }) {
   const history = useHistory();
   return (
     <div>
@@ -83,14 +78,14 @@ function DeleteModal({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Supprimer la famille de produits
+            Supprimer le Type de Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            Souhaitez-vous supprimer la famille de produits '
+            Souhaitez-vous supprimer le Type de Service '
             <strong>
-              <i>{familleProduits.libelle}</i>
+              <i>{typeService.libelle}</i>
             </strong>
             ' ?
           </p>
@@ -109,9 +104,9 @@ function DeleteModal({
             variant="warning"
             style={{ marginLeft: "8px", borderRadius: "20px" }}
             onClick={() => {
-              const id = familleProduits.id;
-              DeleteFamilleProduitsAction(id);
-              history.push("/administration/famille-produits");
+              const id = typeService.id;
+              DeleteTypeServiceAction(id);
+              history.push("/produits/services/type-service");
               window.location.reload();
             }}
           >
@@ -123,13 +118,12 @@ function DeleteModal({
   );
 }
 
-function FamilleProduits(props) {
+function TypeService(props) {
   const {
-    familleProduits,
-    GetFamillesProduitsAction,
-    GetMarketsAction,
-    DeleteFamilleProduitsAction,
-    AnnulerActionForFP,
+    typesService,
+    GetTypesServiceAction,
+    DeleteTypeServiceAction,
+    AnnulerAction,
   } = props;
 
   const [addModalShow, setAddModalShow] = React.useState(false);
@@ -137,16 +131,14 @@ function FamilleProduits(props) {
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [editModalShow, setEditModalShow] = React.useState(false);
   const [deleteModalShow, setDeleteModalShow] = React.useState(false);
-  const [familleProduitsData, setFamilleProduitsData] = React.useState({});
+  const [typeServiceData, setTypeServiceData] = React.useState({});
 
   useEffect(() => {
-    GetFamillesProduitsAction();
-    GetMarketsAction();
-  }, [GetFamillesProduitsAction, GetMarketsAction]);
-
+    GetTypesServiceAction();
+  }, [GetTypesServiceAction]);
   return (
     <>
-      <Template />
+      <ServicesTemplate />
       <div style={{ marginBottom: "45px" }}></div>
 
       <div className="data">
@@ -162,64 +154,44 @@ function FamilleProduits(props) {
           onClick={() => setAddModalShow(true)}
         >
           {" "}
-          + Ajouter une famille de produits
+          + Ajouter un Type de Service
         </Button>
         <AddModal
           show={addModalShow}
           onHide={() => {
-            AnnulerActionForFP();
+            AnnulerAction();
             setAddModalShow(false);
           }}
         />
         <Table hover responsive borderless>
           <thead>
             <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
-              <th>Code</th>
+              <th>ID Famille</th>
+              <th>Famille de produits</th>
               <th>Libellé</th>
-              <th>Marché associé</th>
-              <th>Date d'effectivité</th>
-              <th>Date de fin d'effectivité</th>
+              <th>Description</th>
               <th>Date de création</th>
               <th>Date de modification</th>
-              <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {familleProduits.map((familleProduits) => (
-              <tr key={familleProduits.id} style={{ textAlign: "center" }}>
-                <td> {familleProduits.code}</td>
-                <td> {familleProduits.libelle}</td>
-                <td>{familleProduits.market}</td>
-                <td>{familleProduits.dateEffectivite}</td>
-                <td>{familleProduits.dateFinEffectivite}</td>
-                <td>{familleProduits.dateCreation}</td>
-                <td>{familleProduits.dateModification}</td>
-                <td>
-                  {familleProduits.statut ? (
-                    <div
-                      style={{
-                        textAlign: "center",
-                        fontWeight: "450",
-                        color: "#e29c32",
-                      }}
-                    >
-                      Actif
-                    </div>
-                  ) : (
-                    <div style={{ textAlign: "center", fontWeight: "400" }}>
-                      Inactif
-                    </div>
-                  )}
-                </td>
+            {typesService.map((typeService) => (
+              <tr key={typeService.id} style={{ textAlign: "center" }}>
+                <td> {typeService.familleProduitsId}</td>
+                <td>{typeService.familleProduits}</td>
+                <td> {typeService.libelle}</td>
+                <td> {typeService.description}</td>
+                <td>{typeService.dateCreation}</td>
+                <td>{typeService.dateModification}</td>
                 <td>
                   <div className="row">
                     <FaEdit
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
                         setEditModalShow(true);
-                        setFamilleProduitsData(familleProduits);
+                        setTypeServiceData(typeService);
                         setShowEditModal(true);
                       }}
                     />
@@ -227,7 +199,7 @@ function FamilleProduits(props) {
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
                         setDeleteModalShow(true);
-                        setFamilleProduitsData(familleProduits);
+                        setTypeServiceData(typeService);
                         setShowDeleteModal(true);
                       }}
                     />
@@ -236,18 +208,18 @@ function FamilleProduits(props) {
                     <EditModal
                       show={editModalShow}
                       onHide={() => {
-                        AnnulerActionForFP();
+                        AnnulerAction();
                         setEditModalShow(false);
                       }}
-                      familleProduits={familleProduitsData}
+                      typeService={typeServiceData}
                     />
                   ) : null}
                   {showDeleteModal ? (
                     <DeleteModal
                       show={deleteModalShow}
                       onHide={() => setDeleteModalShow(false)}
-                      familleProduits={familleProduitsData}
-                      DeleteFamilleProduitsAction={DeleteFamilleProduitsAction}
+                      typeService={typeServiceData}
+                      DeleteTypeServiceAction={DeleteTypeServiceAction}
                     />
                   ) : null}
                 </td>
@@ -265,19 +237,17 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */
 const mapStateToProps = (state) => {
   return {
-    familleProduits: state.familleProduits.familleProduits,
+    typesService: state.typeService.typesService,
   };
 };
 
 /*
-    TO MAP ACTION CREATORS TO PROPS
-    */
+  TO MAP ACTION CREATORS TO PROPS
+  */
 const mapDispatchToProps = (dispatch) => ({
-  GetFamillesProduitsAction: () => dispatch(GetFamillesProduitsAction()),
-  GetMarketsAction: () => dispatch(GetMarketsAction()),
-  DeleteFamilleProduitsAction: (id) =>
-    dispatch(DeleteFamilleProduitsAction(id)),
-  AnnulerActionForFP: () => dispatch(AnnulerActionForFP()),
+  GetTypesServiceAction: () => dispatch(GetTypesServiceAction()),
+  DeleteTypeServiceAction: (id) => dispatch(DeleteTypeServiceAction(id)),
+  AnnulerAction: () => dispatch(AnnulerAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FamilleProduits);
+export default connect(mapStateToProps, mapDispatchToProps)(TypeService);

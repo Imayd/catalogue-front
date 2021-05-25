@@ -9,7 +9,7 @@ export const SidebarData = [
   },
   {
     title: "Produits",
-    path: "/produits/monetique/themes",
+    path: "/produits/",
     icon: <FaIcons.FaBoxOpen />,
     cName: "nav-text",
     subNav: [
