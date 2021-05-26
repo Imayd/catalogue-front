@@ -52,7 +52,7 @@ export default function Services() {
           <Nav.Item>
             <Nav.Link>
               <NavLink
-                to="/produits/services/service-facturable"
+                to="/produits/services/services-facturables"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",

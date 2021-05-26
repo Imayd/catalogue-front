@@ -22,7 +22,7 @@ const typeServiceReducer = (state = initialState, action) => {
 
     case TypeServiceActionType.ADD_TYPE_SERVICE_SUCCESS:
       console.log("inside typeServiceReducer SUCCESS Add_" + action.payload);
-      //window.location.reload();
+      window.location.reload();
       return {
         ...state,
         success: true,
@@ -38,7 +38,7 @@ const typeServiceReducer = (state = initialState, action) => {
     case TypeServiceActionType.UPDATE_TYPE_SERVICE_SUCCESS:
       console.log("inside typeServiceReducer SUCCESS Update_");
       console.log(action.payload);
-      //window.location.reload();
+      window.location.reload();
       return {
         ...state,
         errors: "",

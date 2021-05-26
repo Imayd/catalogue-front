@@ -13,6 +13,7 @@ import Bilan from "./components/Bilan";
 import Monetique from "./components/Monetique";
 import TypeService from "./components/TypeService";
 import CategorieService from "./components/CategorieService";
+import ServiceFacturable from "./components/ServiceFacturable";
 //import Services from "./components/Services";
 
 function App() {
@@ -57,6 +58,11 @@ function App() {
             exact
             path="/produits/services/type-service"
             component={TypeService}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/services/services-facturables"
+            component={ServiceFacturable}
           />
           <ProtectedRoute
             exact

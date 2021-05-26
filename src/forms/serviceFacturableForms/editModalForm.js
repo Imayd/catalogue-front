@@ -3,74 +3,69 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { UpdateFamilleProduitsAction } from "../../redux/familleProduits/actions/familleProduitsActions";
+import { UpdateServiceFacturableAction } from "../../redux/serviceFacturable/serviceFacturableActions";
 
 const validationSchema = Yup.object({
-  code: Yup.string()
-    .min(1, "Le code doit comporter au moins 1 caractère")
-    .max(20, "Le code ne doit pas dépasser 20 caractères")
-    .matches(
-      /^[aA-zZ1-9]+$/,
-      "Le code ne doit pas contenir de caractères spéciaux"
-    )
-    .required("Le code de la famille de produits est obligatoire!"),
   libelle: Yup.string()
     .min(3, "Le libellé doit comporter au moins 3 caractères")
-    .max(20, "Le libellé ne doit pas dépasser 20 caractères")
+    .max(80, "Le libellé ne doit pas dépasser 20 caractères")
     .matches(
-      /^[aA-zZÀ-ÿ\s]+$/,
+      /^[aA-zZÀ-ÿ-._\s]+$/,
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
-    .required("Le libellé de la famille de produits est obligatoire!"),
+    .required("Le libellé du type de service est obligatoire!"),
+  categorieService: Yup.string().required(
+    "La catégorie de service est obligatoire!"
+  ),
   dateEffectivite: Yup.string().required(
     "La date d'effectivité est obligatoire!"
   ),
   dateFinEffectivite: Yup.string().required(
     "La date de fin d'effectivité est obligatoire!"
   ),
-  market: Yup.string(),
 });
 
 function EditModalForm(props) {
+  const {
+    serviceFacturable,
+    UpdateServiceFacturableAction,
+    onHide,
+    error,
+    categorieService,
+  } = props;
   const today = new Date();
   const tomorrow = new Date(today.setDate(today.getDate() + 1))
     .toISOString()
     .split("T")[0];
-  const {
-    familleProduits,
-    UpdateFamilleProduitsAction,
-    onHide,
-    error,
-    markets,
-  } = props;
-  const familleProduitsId = familleProduits.id;
-  const familleProduitsCode = familleProduits.code;
-  const familleProduitsLibelle = familleProduits.libelle;
-  const familleProduitsDateEffectivite = familleProduits.dateEffectivite
+
+  const serviceFacturableId = serviceFacturable.id;
+  const serviceFacturableServInternational =
+    serviceFacturable.servInternational;
+  const serviceFacturableLibelle = serviceFacturable.libelle;
+  const serviceFacturableCS = serviceFacturable.categorieService;
+  const serviceFacturableDateEffectivite = serviceFacturable.dateEffectivite
     .split("-")
     .reverse()
     .join("-");
-  const familleProduitsDateFinEffectivite = familleProduits.dateFinEffectivite
+  const serviceFacturableDateFinEffectivite = serviceFacturable.dateFinEffectivite
     .split("-")
     .reverse()
     .join("-");
-
-  const familleProduitsMarket = familleProduits.market;
-
   const initialValues = {
-    code: familleProduitsCode,
-    libelle: familleProduitsLibelle,
-    dateEffectivite: familleProduitsDateEffectivite,
-    dateFinEffectivite: familleProduitsDateFinEffectivite,
-    market: familleProduitsMarket,
+    servInternational: serviceFacturableServInternational,
+    libelle: serviceFacturableLibelle,
+    categorieService: serviceFacturableCS,
+    dateEffectivite: serviceFacturableDateEffectivite,
+    dateFinEffectivite: serviceFacturableDateFinEffectivite,
+    typeService: "Service facturable",
   };
 
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      console.log("inside onSubmit in familleProduits editModalForm");
+      console.log("inside onSubmit in serviceFacturable editModalForm");
       console.log(values);
-      UpdateFamilleProduitsAction(familleProduitsId, values);
+      UpdateServiceFacturableAction(serviceFacturableId, values);
     },
     validationSchema,
   });
@@ -84,25 +79,22 @@ function EditModalForm(props) {
         </div>
       ) : null}
       <Form.Group>
-        <Form.Label>Code de la famille de produits</Form.Label>
+        <Form.Label>Type de Service associé</Form.Label>
         <Form.Control
-          type="text"
-          placeholder="Entrer le code de la famille de produits"
-          name="code"
-          id="code"
-          {...formik.getFieldProps("code")}
-        />
-
-        {formik.touched.code && formik.errors.code ? (
-          <div className="error-message"> {formik.errors.code} </div>
-        ) : null}
+          disabled
+          as="select"
+          name="typeService"
+          id="typeService"
+          {...formik.getFieldProps("typeService")}
+        >
+          <option>Service facturable</option>
+        </Form.Control>
       </Form.Group>
-
       <Form.Group controlId="libelle">
         <Form.Label>Libelle</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Entrer le libelle de la famille de produits"
+          placeholder="Entrer le libelle du Service Facturable"
           name="libelle"
           {...formik.getFieldProps("libelle")}
         />
@@ -112,29 +104,32 @@ function EditModalForm(props) {
         ) : null}
       </Form.Group>
       <Form.Group>
-        <Form.Label>Marché associé</Form.Label>
+        <Form.Label>Catégorie de services associée</Form.Label>
         <Form.Control
           as="select"
-          name="market"
-          id="market"
-          {...formik.getFieldProps("market")}
+          name="categorieService"
+          id="categorieService"
+          {...formik.getFieldProps("categorieService")}
         >
-          <option>Selectionner un marché</option>
-          {markets.map((m) => (
-            <option value={m.nom}>{m.nom}</option>
+          <option>Selectionner une catégorie de services</option>
+          {categorieService.map((cs) => (
+            <option value={cs.libelle}>{cs.libelle}</option>
           ))}
         </Form.Control>
-        {formik.touched.market && formik.errors.market ? (
-          <div className="error-message"> {formik.errors.market} </div>
+        {formik.touched.categorieService && formik.errors.categorieService ? (
+          <div className="error-message">
+            {" "}
+            {formik.errors.categorieService}{" "}
+          </div>
         ) : null}
       </Form.Group>
       <Form.Group controlId="dateEffectivite">
         <Form.Label>Date d'éffectivité</Form.Label>
-
         <Form.Control
           type="date"
           name="dateEffectivite"
-          min={familleProduitsDateEffectivite}
+          min={serviceFacturableDateEffectivite}
+          format="DD-MM-YYYY"
           {...formik.getFieldProps("dateEffectivite")}
         />
 
@@ -142,13 +137,14 @@ function EditModalForm(props) {
           <div className="error-message"> {formik.errors.dateEffectivite} </div>
         ) : null}
       </Form.Group>
+
       <Form.Group controlId="dateFinEffectivite">
         <Form.Label>Date de fin d'éffectivité</Form.Label>
-
         <Form.Control
           type="date"
           name="dateFinEffectivite"
           min={tomorrow}
+          format="DD-MM-YYYY"
           {...formik.getFieldProps("dateFinEffectivite")}
         />
 
@@ -159,6 +155,15 @@ function EditModalForm(props) {
             {formik.errors.dateFinEffectivite}{" "}
           </div>
         ) : null}
+      </Form.Group>
+
+      <Form.Group controlId="servInternational">
+        <Form.Check
+          type="checkbox"
+          name="servInternational"
+          label="Service International"
+          {...formik.getFieldProps("servInternational")}
+        />
       </Form.Group>
       <hr></hr>
       <div style={{ float: "right" }}>
@@ -183,15 +188,15 @@ function EditModalForm(props) {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateFamilleProduitsAction: (familleProduitsId, values) =>
-      dispatch(UpdateFamilleProduitsAction(familleProduitsId, values)),
+    UpdateServiceFacturableAction: (serviceFacturableid, values) =>
+      dispatch(UpdateServiceFacturableAction(serviceFacturableid, values)),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    error: state.familleProduits.errors,
-    markets: state.market.markets,
+    error: state.typeService.errors,
+    categorieService: state.categorieService.categoriesService,
   };
 };
 
