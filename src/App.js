@@ -14,7 +14,7 @@ import Monetique from "./components/Monetique";
 import TypeService from "./components/TypeService";
 import CategorieService from "./components/CategorieService";
 import ServiceFacturable from "./components/ServiceFacturable";
-//import Services from "./components/Services";
+import GroupementStatuts from "./components/GroupementStatuts";
 
 function App() {
   return (
@@ -49,6 +49,17 @@ function App() {
             component={Bilan}
           />
           <ProtectedRoute exact path="/produits/" component={Monetique} />
+          <ProtectedRoute
+            exact
+            path="/produits/maintenance-prerequis"
+            component={GroupementStatuts}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/maintenance-prerequis/groupement-statuts"
+            component={GroupementStatuts}
+          />
+
           <ProtectedRoute
             exact
             path="/produits/services"
