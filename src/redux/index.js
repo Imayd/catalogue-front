@@ -9,6 +9,7 @@ import themeReducer from "./theme/themeReducer";
 import typeServiceReducer from "./typeService/typeServiceReducer";
 import categorieServiceReducer from "./categorieService/categorieServiceReducer";
 import serviceFacturableReducer from "./serviceFacturable/serviceFacturableReducer";
+import grpStatutsReducer from "./grpStatuts/grpStatutsReducer";
 
 export default combineReducers({
   error: errorsReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   typeService: typeServiceReducer,
   categorieService: categorieServiceReducer,
   serviceFacturable: serviceFacturableReducer,
+  grpStatuts: grpStatutsReducer,
 });

@@ -159,3 +159,19 @@ th {
   text-decoration-style: solid;
   text-decoration-thickness: 4.5px !important;
 }
+.croireEnVous {
+  margin-left: 573px;
+  margin-top: 0px;
+  height: 40%;
+  width: 40%;
+  margin-bottom: 135px;
+}
+.croireEnVousHome {
+  background-color: black;
+}
+.logoHome {
+  margin-left: 350px;
+  margin-top: 106px;
+  height: 47%;
+  width: 47%;
+}

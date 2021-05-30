@@ -4,7 +4,7 @@ import SideBar from "./SideBar";
 import { NavLink } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 
-export default function ServicesTemplate() {
+export default function PrerequisTemplate() {
   return (
     <div>
       <NavBar />
@@ -12,13 +12,13 @@ export default function ServicesTemplate() {
       <br></br>
       <div className="data">
         <h3 style={{ marginBottom: "15px" }}>
-          <strong>Maintenance des services </strong>
+          <strong>Maintenance des pré-requis </strong>
         </h3>
         <Nav fill variant="tabs" style={{ marginBottom: "15px" }}>
           <Nav.Item>
             <Nav.Link>
               <NavLink
-                to="/produits/services/type-service"
+                to="/produits/maintenance-prerequis/groupement-statuts"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",
@@ -26,7 +26,7 @@ export default function ServicesTemplate() {
                   fontStyle: "oblique",
                 }}
               >
-                Maintenance des types de services
+                Groupements de statuts
               </NavLink>
             </Nav.Link>
           </Nav.Item>
@@ -35,7 +35,7 @@ export default function ServicesTemplate() {
             <Nav.Link>
               <NavLink
                 exact
-                to="/produits/services/categorie-service"
+                to="/produits/maintenance-prerequis/statuts"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",
@@ -44,7 +44,7 @@ export default function ServicesTemplate() {
                 }}
               >
                 {" "}
-                Maintenance des catégories de services
+                Statuts
               </NavLink>
             </Nav.Link>
           </Nav.Item>
@@ -52,7 +52,7 @@ export default function ServicesTemplate() {
           <Nav.Item>
             <Nav.Link>
               <NavLink
-                to="/produits/services/services-facturables"
+                to="/produits/maintenance-prerequis/groupement-motifs"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",
@@ -61,7 +61,23 @@ export default function ServicesTemplate() {
                 }}
               >
                 {" "}
-                Maintenance des services facturables
+                Groupements de motifs
+              </NavLink>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link>
+              <NavLink
+                to="/produits/maintenance-prerequis/motifs"
+                activeClassName="actived"
+                style={{
+                  textDecoration: "none",
+                  fontStyle: "oblique",
+                  color: "#777575",
+                }}
+              >
+                {" "}
+                Motifs
               </NavLink>
             </Nav.Link>
           </Nav.Item>
