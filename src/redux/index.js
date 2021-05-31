@@ -10,6 +10,9 @@ import typeServiceReducer from "./typeService/typeServiceReducer";
 import categorieServiceReducer from "./categorieService/categorieServiceReducer";
 import serviceFacturableReducer from "./serviceFacturable/serviceFacturableReducer";
 import grpStatutsReducer from "./grpStatuts/grpStatutsReducer";
+import grpMotifsReducer from "./grpMotifs/grpMotifsReducer";
+import StatutReducer from "./statut/statutReducer";
+import MotifReducer from "./motif/motifReducer";
 
 export default combineReducers({
   error: errorsReducer,
@@ -23,4 +26,7 @@ export default combineReducers({
   categorieService: categorieServiceReducer,
   serviceFacturable: serviceFacturableReducer,
   grpStatuts: grpStatutsReducer,
+  grpMotifs: grpMotifsReducer,
+  statut: StatutReducer,
+  motif: MotifReducer,
 });

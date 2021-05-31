@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
-import { AddGrpStatutsAction } from "../../redux/grpStatuts/grpStatutsActions";
+import { AddStatutAction } from "../../redux/statut/statutActions";
 
 const validationSchema = Yup.object({
   code: Yup.string()
@@ -14,14 +14,14 @@ const validationSchema = Yup.object({
       /^[aA-zZ1-9]+$/,
       "Le code ne doit pas contenir de caractères spéciaux"
     )
-    .required("Le code du groupement de statuts est obligatoire!"),
+    .required("Le code du statut est obligatoire!"),
   description: Yup.string()
     .min(1, "La description doit comporter au moins 1 caractère")
     .matches(
       /^[aA-zZÀ-ÿ,.-_'\s]+$/,
       "Le code ne doit pas contenir de caractères spéciaux"
     )
-    .required("La description du groupement de statuts est obligatoire!"),
+    .required("La description du statut est obligatoire!"),
   libelle: Yup.string()
     .min(3, "Le libellé doit comporter au moins 3 caractères")
     .max(20, "Le libellé ne doit pas dépasser 20 caractères")
@@ -29,20 +29,22 @@ const validationSchema = Yup.object({
       /^[aA-zZÀ-ÿ\s]+$/,
       "Le libellé ne doit pas contenir des caractères spéciaux"
     )
-    .required("Le libellé du groupement de statuts est obligatoire!"),
+    .required("Le libellé du statut est obligatoire!"),
+  groupementStatuts: Yup.string(),
 });
 
 const initialValues = {
   code: "",
   description: "",
   libelle: "",
+  groupementStatuts: "",
 };
 
-function AddModalForm({ annuler, AddGrpStatutsAction, error }) {
+function AddModalForm({ annuler, AddStatutAction, grpStatuts, error }) {
   const formik = useFormik({
     initialValues,
     onSubmit: (values, onSubmitProps) => {
-      AddGrpStatutsAction(values);
+      AddStatutAction(values);
       console.log(values);
       onSubmitProps.setSubmitting(false);
     },
@@ -58,10 +60,10 @@ function AddModalForm({ annuler, AddGrpStatutsAction, error }) {
           </div>
         ) : null}
         <Form.Group>
-          <Form.Label>Code du Groupement de statuts</Form.Label>
+          <Form.Label>Code du statut</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer le libelle du Groupement de statuts"
+            placeholder="Entrer le code du statut"
             name="code"
             id="code"
             {...formik.getFieldProps("code")}
@@ -72,10 +74,10 @@ function AddModalForm({ annuler, AddGrpStatutsAction, error }) {
           ) : null}
         </Form.Group>
         <Form.Group>
-          <Form.Label>Libellé du Groupement de statuts</Form.Label>
+          <Form.Label>Libellé du statut</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer le libelle du Groupement de statuts"
+            placeholder="Entrer le libelle du statut"
             name="libelle"
             id="libelle"
             {...formik.getFieldProps("libelle")}
@@ -86,10 +88,31 @@ function AddModalForm({ annuler, AddGrpStatutsAction, error }) {
           ) : null}
         </Form.Group>
         <Form.Group>
-          <Form.Label>Description du Groupement de statuts</Form.Label>
+          <Form.Label>Groupement de statuts associé</Form.Label>
+          <Form.Control
+            as="select"
+            name="groupementStatuts"
+            id="groupementStatuts"
+            {...formik.getFieldProps("groupementStatuts")}
+          >
+            <option>Selectionner un groupement de statuts</option>
+            {grpStatuts.map((gs) => (
+              <option value={gs.libelle}>{gs.libelle}</option>
+            ))}
+          </Form.Control>
+          {formik.touched.groupementStatuts &&
+          formik.errors.groupementStatuts ? (
+            <div className="error-message">
+              {" "}
+              {formik.errors.groupementStatuts}{" "}
+            </div>
+          ) : null}
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Description du statut</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrer la description du Groupement de motifs"
+            placeholder="Entrer la description du statut"
             name="description"
             id="description"
             {...formik.getFieldProps("description")}
@@ -126,7 +149,8 @@ function AddModalForm({ annuler, AddGrpStatutsAction, error }) {
 
 const mapStateToProps = (state) => {
   return {
-    error: state.grpStatuts.errors,
+    error: state.statut.errors,
+    grpStatuts: state.grpStatuts.grpsStatuts,
   };
 };
 
@@ -135,7 +159,7 @@ TO MAP ACTION CREATORS TO PROPS
 */
 const mapDispatchToProps = (dispatch) => {
   return {
-    AddGrpStatutsAction: (values) => dispatch(AddGrpStatutsAction(values)),
+    AddStatutAction: (values) => dispatch(AddStatutAction(values)),
   };
 };
 
