@@ -15,6 +15,9 @@ import TypeService from "./components/TypeService";
 import CategorieService from "./components/CategorieService";
 import ServiceFacturable from "./components/ServiceFacturable";
 import GroupementStatuts from "./components/GroupementStatuts";
+import GroupementMotifs from "./components/GroupementMotifs";
+import Statut from "./components/Statut";
+import Motif from "./components/Motif";
 
 function App() {
   return (
@@ -58,6 +61,21 @@ function App() {
             exact
             path="/produits/maintenance-prerequis/groupement-statuts"
             component={GroupementStatuts}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/maintenance-prerequis/groupement-motifs"
+            component={GroupementMotifs}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/maintenance-prerequis/statuts"
+            component={Statut}
+          />
+          <ProtectedRoute
+            exact
+            path="/produits/maintenance-prerequis/motifs"
+            component={Motif}
           />
 
           <ProtectedRoute

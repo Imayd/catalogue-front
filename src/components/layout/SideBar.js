@@ -42,7 +42,7 @@ function SideBar() {
                         >
                           <div>
                             {" "}
-                            <FaIcons.FaAngleRight activeClassName="activeSubMenu" />
+                            <FaIcons.FaAngleRight />
                             <span>{item.title}</span>
                           </div>
                         </NavLink>
