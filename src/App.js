@@ -18,6 +18,7 @@ import GroupementStatuts from "./components/GroupementStatuts";
 import GroupementMotifs from "./components/GroupementMotifs";
 import Statut from "./components/Statut";
 import Motif from "./components/Motif";
+import Reporting from "./components/Reporting";
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
             path="/produits/maintenance-prerequis/motifs"
             component={Motif}
           />
+          <ProtectedRoute exact path="/reporting" component={Reporting} />
 
           <ProtectedRoute
             exact
