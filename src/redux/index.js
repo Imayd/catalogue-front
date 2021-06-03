@@ -13,6 +13,7 @@ import grpStatutsReducer from "./grpStatuts/grpStatutsReducer";
 import grpMotifsReducer from "./grpMotifs/grpMotifsReducer";
 import StatutReducer from "./statut/statutReducer";
 import MotifReducer from "./motif/motifReducer";
+import carteReducer from "./carte/carteReducer";
 
 export default combineReducers({
   error: errorsReducer,
@@ -29,4 +30,5 @@ export default combineReducers({
   grpMotifs: grpMotifsReducer,
   statut: StatutReducer,
   motif: MotifReducer,
+  carte: carteReducer,
 });

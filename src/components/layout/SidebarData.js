@@ -19,7 +19,7 @@ export const SidebarData = [
       },
       {
         title: "Monétique",
-        path: "/produits/monetique/themes",
+        path: "/produits/monetique",
       },
 
       {
