@@ -10,7 +10,7 @@ import TypeClient from "./components/TypeClient";
 import Page404 from "./components/layout/404.page";
 import FamilleProduits from "./components/FamilleProduits";
 import Bilan from "./components/Bilan";
-import Monetique from "./components/Monetique";
+import Theme from "./components/Theme";
 import TypeService from "./components/TypeService";
 import CategorieService from "./components/CategorieService";
 import ServiceFacturable from "./components/ServiceFacturable";
@@ -19,6 +19,7 @@ import GroupementMotifs from "./components/GroupementMotifs";
 import Statut from "./components/Statut";
 import Motif from "./components/Motif";
 import Reporting from "./components/Reporting";
+import Carte from "./components/Carte";
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
             path="/administration/bilans"
             component={Bilan}
           />
-          <ProtectedRoute exact path="/produits/" component={Monetique} />
+          <ProtectedRoute exact path="/produits/" component={Theme} />
           <ProtectedRoute
             exact
             path="/produits/maintenance-prerequis"
@@ -103,13 +104,14 @@ function App() {
           <ProtectedRoute
             exact
             path="/produits/monetique/themes"
-            component={Monetique}
+            component={Theme}
           />
           <ProtectedRoute
             exact
-            path="/produits/monetique"
-            component={Monetique}
+            path="/produits/monetique/cartes"
+            component={Carte}
           />
+          <ProtectedRoute exact path="/produits/monetique" component={Theme} />
 
           <Route path="*" component={Page404} />
         </Switch>

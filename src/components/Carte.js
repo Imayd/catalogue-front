@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import {
-  GetThemesAction,
-  DeleteThemeAction,
-  CancelAction,
-} from "../redux/theme/themeActions";
-import { Table, Modal, Button } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
-import EditModalForm from "../forms/themeForms/editModalForm";
-import AddModalForm from "../forms/themeForms/addModalForm";
-import { useHistory } from "react-router";
 import MonetiqueTemplate from "./layout/MonetiqueTemplate";
+import { Table, Modal, Button } from "react-bootstrap";
+import AddModalForm from "../forms/carteForms/addModalForm";
+import EditModalForm from "../forms/carteForms/editModalForm";
+import InfoModalForm from "../forms/carteForms/infoModalForm";
+import { FaEdit, FaInfoCircle } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import { useHistory } from "react-router";
+import { GetThemesAction } from "../redux/theme/themeActions";
+import { GetFamillesProduitsAction } from "../redux/familleProduits/actions/familleProduitsActions";
+
+import {
+  GetCartesAction,
+  DeleteCarteAction,
+  AnnulerAction,
+} from "../redux/carte/carteActions";
 
 function AddModal(props) {
   return (
@@ -26,7 +30,7 @@ function AddModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter un thème
+            Ajouter une Carte
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -50,7 +54,7 @@ function EditModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modifier le thème
+            Modifier la Carte
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -61,7 +65,7 @@ function EditModal(props) {
   );
 }
 
-function DeleteModal({ theme, onHide, show, DeleteThemeAction }) {
+function DeleteModal({ carte, onHide, show, DeleteCarteAction }) {
   const history = useHistory();
   return (
     <div>
@@ -76,14 +80,14 @@ function DeleteModal({ theme, onHide, show, DeleteThemeAction }) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Supprimer le thème
+            Supprimer la Carte
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            Souhaitez-vous supprimer le thème '
+            Souhaitez-vous supprimer la Carte '
             <strong>
-              <i>{theme.designation}</i>
+              <i>{carte.libelle}</i>
             </strong>
             ' ?
           </p>
@@ -102,9 +106,9 @@ function DeleteModal({ theme, onHide, show, DeleteThemeAction }) {
             variant="warning"
             style={{ marginLeft: "8px", borderRadius: "20px" }}
             onClick={() => {
-              const id = theme.id;
-              DeleteThemeAction(id);
-              history.push("/produits/monetique/themes");
+              const id = carte.id;
+              DeleteCarteAction(id);
+              history.push("/produits/monetique/cartes");
               window.location.reload();
             }}
           >
@@ -116,22 +120,60 @@ function DeleteModal({ theme, onHide, show, DeleteThemeAction }) {
   );
 }
 
-function Theme({ themes, GetThemesAction, DeleteThemeAction, CancelAction }) {
+function InfoModal(props) {
+  return (
+    <div>
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Détails de la Carte
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <InfoModalForm carte={props.carte} annuler={props.onHide} />
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+}
+
+function Carte(props) {
+  const {
+    cartes,
+    GetCartesAction,
+    GetFamillesProduitsAction,
+    GetThemesAction,
+    DeleteCarteAction,
+    AnnulerAction,
+  } = props;
+
   const [addModalShow, setAddModalShow] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
+  const [infoModalShow, setInfoModalShow] = React.useState(false);
+  const [showInfoModal, setShowInfoModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
-  const [themeData, setThemeData] = React.useState({});
   const [editModalShow, setEditModalShow] = React.useState(false);
   const [deleteModalShow, setDeleteModalShow] = React.useState(false);
+  const [carteData, setCarteData] = React.useState({});
 
   useEffect(() => {
+    GetCartesAction();
+    GetFamillesProduitsAction();
     GetThemesAction();
-  }, [GetThemesAction]);
+  }, [GetFamillesProduitsAction, GetCartesAction, GetThemesAction]);
 
   return (
     <>
       <MonetiqueTemplate />
       <div style={{ marginBottom: "45px" }}></div>
+
       <div className="data">
         <Button
           variant="light"
@@ -145,41 +187,42 @@ function Theme({ themes, GetThemesAction, DeleteThemeAction, CancelAction }) {
           onClick={() => setAddModalShow(true)}
         >
           {" "}
-          + Nouveau thème
+          + Ajouter une Carte
         </Button>
         <AddModal
           show={addModalShow}
           onHide={() => {
-            CancelAction();
+            AnnulerAction();
             setAddModalShow(false);
           }}
         />
-        <Table hover responsive="md" borderless>
+        <Table hover responsive="xl" borderless>
           <thead>
             <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
               <th>Code</th>
-              <th>Désignation</th>
-              <th>Description du thème</th>
-              <th>Date d'éffectivité</th>
-              <th>Date fin d'éffectivité</th>
-              <th>Date d'ajout</th>
+              <th>Libellé</th>
+              <th>FamilleProduits associée</th>
+              <th>Theme associé</th>
+              <th>Date d'effectivité</th>
+              <th>Date de création</th>
               <th>Date de modification</th>
               <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
-            {themes.map((theme) => (
-              <tr key={theme.id} style={{ textAlign: "center" }}>
-                <td> {theme.code}</td>
-                <td> {theme.designation}</td>
-                <td> {theme.description}</td>
-                <td>{theme.dateEffectivite}</td>
-                <td>{theme.dateFinEffectivite}</td>
-                <td> {theme.dateCreation}</td>
-                <td> {theme.dateModification}</td>
+            {cartes.map((carte) => (
+              <tr key={carte.id} style={{ textAlign: "center" }}>
+                <td> {carte.code}</td>
+                <td> {carte.libelle}</td>
+                <td>{carte.familleProduits}</td>
+                <td>{carte.theme}</td>
+                <td>{carte.dateEffectivite}</td>
+                <td>{carte.dateCreation}</td>
+                <td>{carte.dateModification}</td>
                 <td>
-                  {theme.statut ? (
+                  {carte.statut ? (
                     <div
                       style={{
                         textAlign: "center",
@@ -187,50 +230,67 @@ function Theme({ themes, GetThemesAction, DeleteThemeAction, CancelAction }) {
                         color: "#e29c32",
                       }}
                     >
-                      Actif
+                      Active
                     </div>
                   ) : (
                     <div style={{ textAlign: "center", fontWeight: "400" }}>
-                      Inactif
+                      Inactive
                     </div>
                   )}
                 </td>
-
                 <td>
                   <div className="row">
-                    <FaEdit
+                    <FaInfoCircle
                       style={{ marginLeft: "19px" }}
                       onClick={() => {
+                        setInfoModalShow(true);
+                        setCarteData(carte);
+                        setShowInfoModal(true);
+                      }}
+                    />
+                    <FaEdit
+                      style={{ marginLeft: "15px" }}
+                      onClick={() => {
                         setEditModalShow(true);
-                        setThemeData(theme);
+                        setCarteData(carte);
                         setShowEditModal(true);
                       }}
                     />
                     <FaTrash
-                      style={{ marginLeft: "19px" }}
+                      style={{ marginLeft: "15px" }}
                       onClick={() => {
                         setDeleteModalShow(true);
-                        setThemeData(theme);
+                        setCarteData(carte);
                         setShowDeleteModal(true);
                       }}
                     />
                   </div>
+                  {showInfoModal ? (
+                    <InfoModal
+                      show={infoModalShow}
+                      onHide={() => {
+                        AnnulerAction();
+                        setInfoModalShow(false);
+                      }}
+                      carte={carteData}
+                    />
+                  ) : null}
                   {showEditModal ? (
                     <EditModal
                       show={editModalShow}
                       onHide={() => {
-                        CancelAction();
+                        AnnulerAction();
                         setEditModalShow(false);
                       }}
-                      theme={themeData}
+                      carte={carteData}
                     />
                   ) : null}
                   {showDeleteModal ? (
                     <DeleteModal
                       show={deleteModalShow}
                       onHide={() => setDeleteModalShow(false)}
-                      theme={themeData}
-                      DeleteThemeAction={DeleteThemeAction}
+                      carte={carteData}
+                      DeleteCarteAction={DeleteCarteAction}
                     />
                   ) : null}
                 </td>
@@ -248,17 +308,19 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */
 const mapStateToProps = (state) => {
   return {
-    themes: state.theme.themes,
+    cartes: state.carte.cartes,
   };
 };
 
 /*
-  TO MAP ACTION CREATORS TO PROPS
-  */
+    TO MAP ACTION CREATORS TO PROPS
+    */
 const mapDispatchToProps = (dispatch) => ({
+  GetFamillesProduitsAction: () => dispatch(GetFamillesProduitsAction()),
   GetThemesAction: () => dispatch(GetThemesAction()),
-  DeleteThemeAction: (id) => dispatch(DeleteThemeAction(id)),
-  CancelAction: () => dispatch(CancelAction()),
+  GetCartesAction: () => dispatch(GetCartesAction()),
+  DeleteCarteAction: (id) => dispatch(DeleteCarteAction(id)),
+  AnnulerAction: () => dispatch(AnnulerAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Theme);
+export default connect(mapStateToProps, mapDispatchToProps)(Carte);
