@@ -167,6 +167,7 @@ function GroupementMotifs(props) {
           <thead>
             <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
               <th>Code</th>
+              <th>Libellé</th>
               <th>Description</th>
               <th>Date de création</th>
               <th>Date de modification</th>
@@ -178,6 +179,7 @@ function GroupementMotifs(props) {
             {grpMotifs.map((gm) => (
               <tr key={gm.id} style={{ textAlign: "center" }}>
                 <td> {gm.code}</td>
+                <td> {gm.libelle}</td>
                 <td> {gm.description}</td>
                 <td>{gm.dateCreation}</td>
                 <td>{gm.dateModification}</td>

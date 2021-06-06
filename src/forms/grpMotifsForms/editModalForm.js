@@ -14,6 +14,14 @@ const validationSchema = Yup.object({
       "Le code ne doit pas contenir de caractères spéciaux"
     )
     .required("Le code du groupement de motifs est obligatoire!"),
+  libelle: Yup.string()
+    .min(1, "Le libellé doit comporter au moins 1 caractère")
+    .max(20, "Le libellé ne doit pas dépasser 20 caractères")
+    .matches(
+      /^[aA-zZ1-9]+$/,
+      "Le libellé ne doit pas contenir de caractères spéciaux"
+    )
+    .required("Le libellé du groupement de motifs est obligatoire!"),
   description: Yup.string()
     .min(1, "La description doit comporter au moins 1 caractère")
     .matches(
@@ -28,10 +36,12 @@ function EditModalForm(props) {
   const grpMotifsId = grpMotifs.id;
   const grpMotifsDescription = grpMotifs.description;
   const grpMotifsCode = grpMotifs.code;
+  const grpMotifsLibelle = grpMotifs.libelle;
 
   const initialValues = {
     description: grpMotifsDescription,
     code: grpMotifsCode,
+    libelle: grpMotifsLibelle,
   };
 
   const formik = useFormik({
@@ -64,6 +74,20 @@ function EditModalForm(props) {
 
         {formik.touched.code && formik.errors.code ? (
           <div className="error-message">{formik.errors.code}</div>
+        ) : null}
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Libellé du Groupement de motifs</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Entrer le libelle du Groupement de motifs"
+          name="libelle"
+          id="libelle"
+          {...formik.getFieldProps("libelle")}
+        />
+
+        {formik.touched.libelle && formik.errors.libelle ? (
+          <div className="error-message">{formik.errors.libelle}</div>
         ) : null}
       </Form.Group>
 
