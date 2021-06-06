@@ -13,7 +13,7 @@ import Bilan from "./components/Bilan";
 import Theme from "./components/Theme";
 import TypeService from "./components/TypeService";
 import CategorieService from "./components/CategorieService";
-import ServiceFacturable from "./components/ServiceFacturable";
+import Service from "./components/Service";
 import GroupementStatuts from "./components/GroupementStatuts";
 import GroupementMotifs from "./components/GroupementMotifs";
 import Statut from "./components/Statut";
@@ -93,8 +93,8 @@ function App() {
           />
           <ProtectedRoute
             exact
-            path="/produits/services/services-facturables"
-            component={ServiceFacturable}
+            path="/produits/services/maintenance-services"
+            component={Service}
           />
           <ProtectedRoute
             exact
