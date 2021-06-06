@@ -8,7 +8,7 @@ import bilanReducer from "./bilan/bilanReducer";
 import themeReducer from "./theme/themeReducer";
 import typeServiceReducer from "./typeService/typeServiceReducer";
 import categorieServiceReducer from "./categorieService/categorieServiceReducer";
-import serviceFacturableReducer from "./serviceFacturable/serviceFacturableReducer";
+import serviceReducer from "./service/serviceReducer";
 import grpStatutsReducer from "./grpStatuts/grpStatutsReducer";
 import grpMotifsReducer from "./grpMotifs/grpMotifsReducer";
 import StatutReducer from "./statut/statutReducer";
@@ -25,7 +25,7 @@ export default combineReducers({
   theme: themeReducer,
   typeService: typeServiceReducer,
   categorieService: categorieServiceReducer,
-  serviceFacturable: serviceFacturableReducer,
+  service: serviceReducer,
   grpStatuts: grpStatutsReducer,
   grpMotifs: grpMotifsReducer,
   statut: StatutReducer,

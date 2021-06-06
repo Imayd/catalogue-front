@@ -52,7 +52,7 @@ export default function ServicesTemplate() {
           <Nav.Item>
             <Nav.Link>
               <NavLink
-                to="/produits/services/services-facturables"
+                to="/produits/services/maintenance-services"
                 activeClassName="actived"
                 style={{
                   textDecoration: "none",
@@ -61,7 +61,7 @@ export default function ServicesTemplate() {
                 }}
               >
                 {" "}
-                Maintenance des services facturables
+                Maintenance des services
               </NavLink>
             </Nav.Link>
           </Nav.Item>

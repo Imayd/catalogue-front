@@ -180,3 +180,8 @@ th {
   margin-right: 25px;
   margin-bottom: 50px;
 }
+
+.infoModal {
+  font-weight: bold;
+  margin-bottom: 8px;
+}

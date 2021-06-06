@@ -2,20 +2,23 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import ServicesTemplate from "./layout/ServicesTemplate";
 import { Table, Modal, Button } from "react-bootstrap";
-import AddModalForm from "../forms/serviceFacturableForms/addModalForm";
+import AddModalForm from "../forms/serviceForms/addModalForm";
+import InfoModalForm from "../forms/serviceForms/infoModalForm";
 
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaInfoCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import EditModalForm from "../forms/serviceFacturableForms/editModalForm";
+import EditModalForm from "../forms/serviceForms/editModalForm";
 import { useHistory } from "react-router";
 
 import {
-  DeleteServiceFacturableAction,
-  GetServicesFacturablesAction,
+  DeleteServiceAction,
+  GetServicesAction,
   AnnulerAction,
-} from "../redux/serviceFacturable/serviceFacturableActions";
+} from "../redux/service/serviceActions";
 import { GetCategoriesServiceAction } from "../redux/categorieService/categorieServiceActions";
-import { GetTypesServiceAction } from "../redux/typeService/typeServiceActions";
+import { GetCartesAction } from "../redux/carte/carteActions";
+import { GetGrpsStatutsAction } from "../redux/grpStatuts/grpStatutsActions";
+import { GetGrpsMotifsAction } from "../redux/grpMotifs/grpMotifsActions";
 
 function AddModal(props) {
   return (
@@ -30,7 +33,7 @@ function AddModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter un Service Facturable
+            Ajouter un Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -54,7 +57,7 @@ function EditModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modifier le Service Facturable
+            Modifier le Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -65,12 +68,7 @@ function EditModal(props) {
   );
 }
 
-function DeleteModal({
-  serviceFacturable,
-  onHide,
-  show,
-  DeleteServiceFacturableAction,
-}) {
+function DeleteModal({ service, onHide, show, DeleteServiceAction }) {
   const history = useHistory();
   return (
     <div>
@@ -85,14 +83,14 @@ function DeleteModal({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Supprimer le Service Facturable
+            Supprimer le Service
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            Souhaitez-vous supprimer le Service Facturable '
+            Souhaitez-vous supprimer le Service '
             <strong>
-              <i>{serviceFacturable.libelle}</i>
+              <i>{service.libelle}</i>
             </strong>
             ' ?
           </p>
@@ -111,9 +109,9 @@ function DeleteModal({
             variant="warning"
             style={{ marginLeft: "8px", borderRadius: "20px" }}
             onClick={() => {
-              const id = serviceFacturable.id;
-              DeleteServiceFacturableAction(id);
-              history.push("/produits/services/services-facturables");
+              const id = service.id;
+              DeleteServiceAction(id);
+              history.push("/produits/services/maintenance-services");
               window.location.reload();
             }}
           >
@@ -124,28 +122,64 @@ function DeleteModal({
     </div>
   );
 }
+function InfoModal(props) {
+  return (
+    <div>
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Détails du service
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <InfoModalForm service={props.service} annuler={props.onHide} />
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+}
 
-function ServiceFacturable(props) {
+function Service(props) {
   const {
-    servicesFacturables,
-    GetServicesFacturablesAction,
+    services,
+    GetServicesAction,
+    GetCartesAction,
+    GetGrpsStatutsAction,
+    GetGrpsMotifsAction,
     GetCategoriesServiceAction,
-    DeleteServiceFacturableAction,
+    DeleteServiceAction,
     AnnulerAction,
   } = props;
 
   const [addModalShow, setAddModalShow] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
+  const [infoModalShow, setInfoModalShow] = React.useState(false);
+  const [showInfoModal, setShowInfoModal] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [editModalShow, setEditModalShow] = React.useState(false);
   const [deleteModalShow, setDeleteModalShow] = React.useState(false);
-  const [serviceFacturableData, setServiceFacturableData] = React.useState({});
+  const [serviceData, setServiceData] = React.useState({});
 
   useEffect(() => {
-    GetServicesFacturablesAction();
-    GetTypesServiceAction();
+    GetServicesAction();
+    GetCartesAction();
+    GetGrpsStatutsAction();
+    GetGrpsMotifsAction();
     GetCategoriesServiceAction();
-  }, [GetServicesFacturablesAction, GetCategoriesServiceAction]);
+  }, [
+    GetServicesAction,
+    GetCategoriesServiceAction,
+    GetCartesAction,
+    GetGrpsStatutsAction,
+    GetGrpsMotifsAction,
+  ]);
   return (
     <>
       <ServicesTemplate />
@@ -164,7 +198,7 @@ function ServiceFacturable(props) {
           onClick={() => setAddModalShow(true)}
         >
           {" "}
-          + Ajouter un Service Facturable
+          + Ajouter un Service
         </Button>
         <AddModal
           show={addModalShow}
@@ -176,9 +210,10 @@ function ServiceFacturable(props) {
         <Table hover responsive="xl" borderless>
           <thead>
             <tr style={{ textAlign: "center", whiteSpace: "nowrap" }}>
+              <th>Code</th>
               <th>Libellé</th>
-              <th>Type de service</th>
               <th>Catégorie de service</th>
+              <th>Produit associé</th>
               <th>Date d'effectivité</th>
               <th>Serv. International</th>
               <th>Date création</th>
@@ -188,14 +223,15 @@ function ServiceFacturable(props) {
           </thead>
 
           <tbody>
-            {servicesFacturables.map((serviceFacturable) => (
-              <tr key={serviceFacturable.id} style={{ textAlign: "center" }}>
-                <td> {serviceFacturable.libelle}</td>
-                <td>{serviceFacturable.typeService}</td>
-                <td> {serviceFacturable.categorieService}</td>
-                <td> {serviceFacturable.dateEffectivite}</td>
+            {services.map((service) => (
+              <tr key={service.id} style={{ textAlign: "center" }}>
+                <td> {service.code}</td>
+                <td> {service.libelle}</td>
+                <td> {service.categorieService}</td>
+                <td>{service.carte}</td>
+                <td> {service.dateEffectivite}</td>
                 <td>
-                  {serviceFacturable.servInternational ? (
+                  {service.servInternational ? (
                     <div
                       style={{
                         textAlign: "center",
@@ -211,27 +247,45 @@ function ServiceFacturable(props) {
                     </div>
                   )}
                 </td>
-                <td>{serviceFacturable.dateCreation}</td>
-                <td>{serviceFacturable.dateModification}</td>
+                <td>{service.dateCreation}</td>
+                <td>{service.dateModification}</td>
                 <td>
                   <div className="row">
+                    <FaInfoCircle
+                      style={{ marginLeft: "9px" }}
+                      onClick={() => {
+                        setInfoModalShow(true);
+                        setServiceData(service);
+                        setShowInfoModal(true);
+                      }}
+                    />
                     <FaEdit
-                      style={{ marginLeft: "19px" }}
+                      style={{ marginLeft: "9px" }}
                       onClick={() => {
                         setEditModalShow(true);
-                        setServiceFacturableData(serviceFacturable);
+                        setServiceData(service);
                         setShowEditModal(true);
                       }}
                     />
                     <FaTrash
-                      style={{ marginLeft: "19px" }}
+                      style={{ marginLeft: "9px" }}
                       onClick={() => {
                         setDeleteModalShow(true);
-                        setServiceFacturableData(serviceFacturable);
+                        setServiceData(service);
                         setShowDeleteModal(true);
                       }}
                     />
                   </div>
+                  {showInfoModal ? (
+                    <InfoModal
+                      show={infoModalShow}
+                      onHide={() => {
+                        AnnulerAction();
+                        setInfoModalShow(false);
+                      }}
+                      service={serviceData}
+                    />
+                  ) : null}
                   {showEditModal ? (
                     <EditModal
                       show={editModalShow}
@@ -239,17 +293,15 @@ function ServiceFacturable(props) {
                         AnnulerAction();
                         setEditModalShow(false);
                       }}
-                      serviceFacturable={serviceFacturableData}
+                      service={serviceData}
                     />
                   ) : null}
                   {showDeleteModal ? (
                     <DeleteModal
                       show={deleteModalShow}
                       onHide={() => setDeleteModalShow(false)}
-                      serviceFacturable={serviceFacturableData}
-                      DeleteServiceFacturableAction={
-                        DeleteServiceFacturableAction
-                      }
+                      service={serviceData}
+                      DeleteServiceAction={DeleteServiceAction}
                     />
                   ) : null}
                 </td>
@@ -267,7 +319,7 @@ TO ACCESS THE REDUX STATE IN THIS COMPONENT
 */
 const mapStateToProps = (state) => {
   return {
-    servicesFacturables: state.serviceFacturable.servicesFacturables,
+    services: state.service.services,
   };
 };
 
@@ -275,11 +327,13 @@ const mapStateToProps = (state) => {
   TO MAP ACTION CREATORS TO PROPS
   */
 const mapDispatchToProps = (dispatch) => ({
-  GetServicesFacturablesAction: () => dispatch(GetServicesFacturablesAction()),
+  GetServicesAction: () => dispatch(GetServicesAction()),
   GetCategoriesServiceAction: () => dispatch(GetCategoriesServiceAction()),
-  DeleteServiceFacturableAction: (id) =>
-    dispatch(DeleteServiceFacturableAction(id)),
+  GetCartesAction: () => dispatch(GetCartesAction()),
+  GetGrpsStatutsAction: () => dispatch(GetGrpsStatutsAction()),
+  GetGrpsMotifsAction: () => dispatch(GetGrpsMotifsAction()),
+  DeleteServiceAction: (id) => dispatch(DeleteServiceAction(id)),
   AnnulerAction: () => dispatch(AnnulerAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ServiceFacturable);
+export default connect(mapStateToProps, mapDispatchToProps)(Service);
