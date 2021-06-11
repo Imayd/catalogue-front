@@ -24,7 +24,7 @@ const categorieServiceReducer = (state = initialState, action) => {
       console.log(
         "inside CategorieServiceReducer SUCCESS Add_" + action.payload
       );
-      //window.location.reload();
+      window.location.reload();
       return {
         ...state,
         success: true,
@@ -40,7 +40,7 @@ const categorieServiceReducer = (state = initialState, action) => {
     case CategorieServiceActionType.UPDATE_CATEGORIE_SERVICE_SUCCESS:
       console.log("inside CategorieServiceReducer SUCCESS Update_");
       console.log(action.payload);
-      //window.location.reload();
+      window.location.reload();
       return {
         ...state,
         errors: "",
