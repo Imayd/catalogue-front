@@ -16,7 +16,7 @@ const validationSchema = Yup.object({
     .required("Le code est obligatoire!"),
   designation: Yup.string()
     .min(3, "La désignation doit comporter au moins 3 caractères")
-    .max(20, "La désignation ne doit pas dépasser 20 caractères")
+    .max(40, "La désignation ne doit pas dépasser 40 caractères")
     .matches(
       /^[aA-zZÀ-ÿ\s]+$/,
       "La désignation ne doit pas contenir des caractères spéciaux"
@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
   ),
   description: Yup.string()
     .min(3, "La description doit comporter au moins 3 caractères")
-    .max(20, "La description ne doit pas dépasser 20 caractères")
+    .max(80, "La description ne doit pas dépasser 80 caractères")
     .matches(
       /^[aA-zZÀ-ÿ\s]+$/,
       "La description ne doit pas contenir des caractères spéciaux"
