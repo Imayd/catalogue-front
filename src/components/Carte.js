@@ -239,9 +239,9 @@ function Carte(props) {
                   )}
                 </td>
                 <td>
-                  <div className="row">
+                  <div className="row" style={{ whiteSpace: "nowrap" }}>
                     <FaInfoCircle
-                      style={{ marginLeft: "19px" }}
+                      style={{ marginLeft: "10px" }}
                       onClick={() => {
                         setInfoModalShow(true);
                         setCarteData(carte);
@@ -249,7 +249,7 @@ function Carte(props) {
                       }}
                     />
                     <FaEdit
-                      style={{ marginLeft: "15px" }}
+                      style={{ marginLeft: "8px" }}
                       onClick={() => {
                         setEditModalShow(true);
                         setCarteData(carte);
@@ -257,7 +257,7 @@ function Carte(props) {
                       }}
                     />
                     <FaTrash
-                      style={{ marginLeft: "15px" }}
+                      style={{ marginLeft: "8px" }}
                       onClick={() => {
                         setDeleteModalShow(true);
                         setCarteData(carte);

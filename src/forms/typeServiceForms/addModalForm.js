@@ -16,7 +16,7 @@ const validationSchema = Yup.object({
     .required("La description du type de service est obligatoire!"),
   libelle: Yup.string()
     .min(3, "Le libellé doit comporter au moins 3 caractères")
-    .max(20, "Le libellé ne doit pas dépasser 20 caractères")
+    .max(40, "Le libellé ne doit pas dépasser 40 caractères")
     .matches(
       /^[aA-zZÀ-ÿ\s]+$/,
       "Le libellé ne doit pas contenir des caractères spéciaux"

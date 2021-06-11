@@ -70,7 +70,7 @@ function Reporting(props) {
         data: reporting.nbrServicesParCategorieService,
         fill: false,
         borderColor: "white",
-        backgroundColor: ["red", "blue", "rgba(75,192,192,0.4)", "orange"],
+        backgroundColor: ["red", "rgba(75,192,192,0.4)", "blue", "orange"],
       },
     ],
   };
