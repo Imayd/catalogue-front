@@ -53,7 +53,7 @@ function InfoModalForm(props) {
     <>
       <Form>
         <Form.Row>
-          <Form.Group as={Col}>
+          <Form.Group as={Col} md="2">
             <Form.Label>Code</Form.Label>
             <Form.Control
               type="text"
@@ -64,7 +64,7 @@ function InfoModalForm(props) {
             />
           </Form.Group>
 
-          <Form.Group as={Col} controlId="libelle">
+          <Form.Group as={Col} md="5" controlId="libelle">
             <Form.Label>Libellé</Form.Label>
             <Form.Control
               type="text"
@@ -82,7 +82,7 @@ function InfoModalForm(props) {
               {...formik.getFieldProps("codeHost")}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="validite">
+          <Form.Group as={Col} md="2" controlId="validite">
             <Form.Label>Validité [AN(s)] </Form.Label>
             <Form.Control
               type="number"

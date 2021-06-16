@@ -112,7 +112,7 @@ function EditModalForm(props) {
           ) : null}
         </Form.Group>
 
-        <Form.Group as={Col} controlId="libelle">
+        <Form.Group as={Col} md="5" controlId="libelle">
           <Form.Label>Libellé</Form.Label>
           <Form.Control
             type="text"

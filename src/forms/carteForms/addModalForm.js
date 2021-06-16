@@ -78,7 +78,7 @@ function AddModalForm({ annuler, AddCarteAction, error, themes }) {
           </div>
         ) : null}
         <Form.Row>
-          <Form.Group as={Col}>
+          <Form.Group as={Col} md="3">
             <Form.Label>Code</Form.Label>
             <Form.Control
               type="text"
@@ -93,7 +93,7 @@ function AddModalForm({ annuler, AddCarteAction, error, themes }) {
             ) : null}
           </Form.Group>
 
-          <Form.Group as={Col} controlId="libelle">
+          <Form.Group as={Col} md="4" controlId="libelle">
             <Form.Label>Libellé</Form.Label>
             <Form.Control
               type="text"
@@ -106,7 +106,7 @@ function AddModalForm({ annuler, AddCarteAction, error, themes }) {
               <div className="error-message"> {formik.errors.libelle} </div>
             ) : null}
           </Form.Group>
-          <Form.Group as={Col} controlId="codeHost">
+          <Form.Group as={Col} md="3" controlId="codeHost">
             <Form.Label>Code Host</Form.Label>
             <Form.Control
               type="text"
@@ -119,7 +119,7 @@ function AddModalForm({ annuler, AddCarteAction, error, themes }) {
               <div className="error-message"> {formik.errors.codeHost} </div>
             ) : null}
           </Form.Group>
-          <Form.Group as={Col} controlId="validite">
+          <Form.Group as={Col} md="2" controlId="validite">
             <Form.Label>Validité [AN(s)] </Form.Label>
             <Form.Control
               type="number"
